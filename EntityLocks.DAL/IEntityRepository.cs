@@ -1,48 +1,43 @@
-﻿namespace EntityLocks.DAL
+﻿
+namespace EntityLocks.DAL
 {
     using EntityLocks.Domain;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
-    /// <summary>
-    /// Handles database operations.
-    /// </summary>
-    internal class DomainManager
+    public interface IEntityRepository<T> where T : Entity
     {
         /// <summary>
         /// Loads a list of entites.
         /// </summary>
         /// <returns>List of all entities of given type in database</returns>
-        public IList<Entity> Load(Type entityType)
-        {
-            return null;
-        }
+        IList<T> Load();
 
         /// <summary>
         /// Loads a single entity.
         /// </summary>
         /// <returns>Single Entity</returns>
-        public Entity Load(Type entityType, Guid entityId)
-        {
-            return null;
-        }
+        T Load(Guid entityId);
 
         /// <summary>
-        /// Save an entity.
+        /// Save an existing entity.
         /// </summary>
         /// <param name="ent"></param>
-        public void Save(Entity ent)
-        {
-            
-        }
+        void Save(T ent);
+
+        /// <summary>
+        /// Creates a new entity;
+        /// </summary>
+        /// <param name="ent"></param>
+        void New(T ent);
 
         /// <summary>
         /// Deletes an entity.
         /// </summary>
         /// <param name="entityId">Entity that needs to be deleted</param>
-        public void Delete(Entity ent)
-        {
-
-        }
+        void Delete(T ent);
     }
 }

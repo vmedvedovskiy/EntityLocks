@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class PessimisticEntity: Entity
+    public class PessimisticEntity: Entity, ILockableEntity
     {
         public string Name { get; set; }
 
@@ -10,9 +10,11 @@
 
         public string AdditionalInfo { get; set; }
 
-        public override LockType Locktype
+        public LockType LockType
         {
             get { return LockType.Pessimistic; }
         }
+
+        public bool IsLocked { get; set; }
     }
 }

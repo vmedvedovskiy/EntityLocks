@@ -40,7 +40,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainManager.cs" />
+    <Compile Include="EntityRepository.cs" />
+    <Compile Include="EntityRepositoryFactory.cs" />
+    <Compile Include="IEntityRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\OptimisticEntityRepository.cs" />
+    <Compile Include="Repositories\PessimisticEntityRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EntityLocks.Common\EntityLocks.Common.csproj">
+      <Project>{0cee5581-d095-4dc9-a1d4-4d0f5b67fa35}</Project>
+      <Name>EntityLocks.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityLocks.Domain\EntityLocks.Domain.csproj">
+      <Project>{7d816cd6-1e6e-4e01-81c4-39c984fefd5e}</Project>
+      <Name>EntityLocks.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

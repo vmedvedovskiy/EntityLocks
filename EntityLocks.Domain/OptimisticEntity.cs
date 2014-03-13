@@ -1,12 +1,12 @@
 ﻿namespace EntityLocks.Domain
 {
-    public class OptimisticEntity: Entity
+    public class OptimisticEntity : Entity, ILockableEntity
     {
         public int ObjectsCount { get; set; }
 
         public string Notes { get; set; }
 
-        public override LockType Locktype
+        public LockType LockType
         {
             get { return LockType.Optimistic; }
         }

@@ -7,13 +7,5 @@
         public Guid Id { get; set; }
 
         public int Version { get; set; }
-
-        public abstract LockType Locktype { get; }
-    }
-
-    public enum LockType
-    {
-        Optimistic,
-        Pessimistic
     }
 }

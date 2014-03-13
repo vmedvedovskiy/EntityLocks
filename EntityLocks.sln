@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityLocks.Web", "EntityLocks.Web\EntityLocks.Web.csproj", "{AA005C4A-FA47-4CAE-9E01-77457762E295}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityLocks.Domain", "EntityLocks.Domain\EntityLocks.Domain.csproj", "{7D816CD6-1E6E-4E01-81C4-39C984FEFD5E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityLocks.DAL", "EntityLocks.DAL\EntityLocks.DAL.csproj", "{95610031-3EFA-494D-B9B7-E5388411613A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityLocks.Common", "EntityLocks.Common\EntityLocks.Common.csproj", "{0CEE5581-D095-4DC9-A1D4-4D0F5B67FA35}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{95610031-3EFA-494D-B9B7-E5388411613A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95610031-3EFA-494D-B9B7-E5388411613A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95610031-3EFA-494D-B9B7-E5388411613A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CEE5581-D095-4DC9-A1D4-4D0F5B67FA35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CEE5581-D095-4DC9-A1D4-4D0F5B67FA35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CEE5581-D095-4DC9-A1D4-4D0F5B67FA35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CEE5581-D095-4DC9-A1D4-4D0F5B67FA35}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

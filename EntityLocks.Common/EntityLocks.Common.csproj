@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7D816CD6-1E6E-4E01-81C4-39C984FEFD5E}</ProjectGuid>
+    <ProjectGuid>{0CEE5581-D095-4DC9-A1D4-4D0F5B67FA35}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EntityLocks.Domain</RootNamespace>
-    <AssemblyName>EntityLocks.Domain</AssemblyName>
+    <RootNamespace>EntityLocks.Common</RootNamespace>
+    <AssemblyName>EntityLocks.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,12 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entity.cs" />
-    <Compile Include="ILockableEntity.cs" />
-    <Compile Include="OptimisticEntity.cs" />
-    <Compile Include="PessimisticEntity.cs" />
+    <Compile Include="Strings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="User.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
