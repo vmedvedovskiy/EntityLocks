@@ -1,4 +1,4 @@
-﻿namespace EntityLocks.Domain
+﻿namespace EntityLocks.Domain.Base
 {
     using System;
 

@@ -1,7 +1,7 @@
-﻿
-
-namespace EntityLocks.Domain
+﻿namespace EntityLocks.Domain
 {
+    using EntityLocks.Domain.Base;
+
     public class User: Entity
     {
         public string Login { get; set; }

@@ -2,7 +2,7 @@
 namespace EntityLocks.DAL
 {
     using EntityLocks.Common;
-    using EntityLocks.Domain;
+    using EntityLocks.Domain.Base;
     using System;
     using System.Collections.Generic;
     using System.Data;

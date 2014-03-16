@@ -39,12 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entity.cs" />
-    <Compile Include="ILockableEntity.cs" />
     <Compile Include="OptimisticEntity.cs" />
     <Compile Include="PessimisticEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EntityLocks.Domain.Base\EntityLocks.Domain.Base.csproj">
+      <Project>{c34b5854-dcb9-4373-acf0-d625d28e5a7b}</Project>
+      <Name>EntityLocks.Domain.Base</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

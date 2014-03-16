@@ -3,6 +3,7 @@ namespace EntityLocks.DAL
 {
     using EntityLocks.DAL.Repositories;
     using EntityLocks.Domain;
+    using EntityLocks.Domain.Base;
     using System;
 
     public class EntityRepositoryFactory
@@ -16,11 +17,18 @@ namespace EntityLocks.DAL
 
         public IEntityRepository<T> GetByType<T>(Type entityType) where T: Entity
         {
-            IEntityRepository<T> result = null;
+            dynamic result = null;
             if(entityType == typeof(OptimisticEntity))
             {
-                var rep = new OptimisticEntityRepository(this.domainManager);
-                result = (IEntityRepository<T>)rep;
+                result = new OptimisticEntityRepository(this.domainManager);
+            }
+            else if (entityType == typeof(PessimisticEntity))
+            {
+                result = new PessimisticEntityRepository(this.domainManager);
+            }
+            else if (entityType == typeof(User))
+            {
+                result = new EntityRepository<User>(this.domainManager);
             }
 
             return result;
