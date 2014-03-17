@@ -1,0 +1,42 @@
+﻿<!-- ko with: login -->
+<h2>Выполнить вход</h2>
+
+<div class="row" style="width:500px">
+    <center class="">
+        <form class="form-horizontal" role="form">
+            <h4>Используйте для входа локальную учетную запись.</h4>
+            <hr />
+            <ul class="text-danger" data-bind="foreach: errors">
+                <li data-bind="text: $data"></li>
+            </ul>
+            <div class="form-group">
+                <label for="LoginUserName" class="col-md-2 control-label">Имя пользователя</label>
+                <div class="col-md-10">
+                    <input type="text" id="LoginUserName" class="form-control" data-bind="value: userName, hasFocus: true" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="LoginPassword" class="col-md-2 control-label">Пароль</label>
+                <div class="col-md-10">
+                    <input type="password" id="LoginPassword" class="form-control" data-bind="value: password" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <div class="checkbox">
+                        <input type="checkbox" id="LoginRememberMe" data-bind="checked: rememberMe" />
+                        <label for="LoginRememberMe">Запомнить меня</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn btn-default" data-bind="click: login, disable: loggingIn">Выполнить вход</button>
+                </div>
+            </div>
+            <p><a href="#" data-bind="click: register">Зарегистрируйтесь</a>, если у вас нет локальной учетной записи.</p>
+
+        </form>
+    </center>
+</div>
+<!-- /ko -->

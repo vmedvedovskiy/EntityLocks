@@ -43,7 +43,6 @@
     <Compile Include="EntityRepository.cs" />
     <Compile Include="EntityRepositoryFactory.cs" />
     <Compile Include="IEntityRepository.cs" />
-    <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\OptimisticEntityRepository.cs" />
     <Compile Include="Repositories\PessimisticEntityRepository.cs" />

@@ -54,7 +54,6 @@ namespace EntityLocks.DAL
         public virtual void New(T ent)
         {
             ent.Id = new Guid();
-            ent.Version = 1;
             this.Save(ent);
         }
 

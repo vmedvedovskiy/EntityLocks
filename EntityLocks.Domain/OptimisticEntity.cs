@@ -1,10 +1,13 @@
-﻿using EntityLocks.Domain.Base;
-namespace EntityLocks.Domain
+﻿namespace EntityLocks.Domain
 {
-    public class OptimisticEntity : Entity
+    using EntityLocks.Domain.Base;
+
+    public class OptimisticEntity : LockableEntity
     {
         public int ObjectsCount { get; set; }
 
         public string Notes { get; set; }
+
+        public int Version { get; set; }
     }
 }

@@ -9,5 +9,11 @@
             : base(manager)
         { 
         }
+
+        public override void Save(PessimisticEntity ent)
+        {
+            ent.Holder = null;
+            base.Save(ent);
+        }
     }
 }

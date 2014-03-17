@@ -8,25 +8,51 @@ namespace EntityLocks.DAL
 
     public class EntityRepositoryFactory
     {
+        private static readonly object syncRoot = null;
         private DomainManager domainManager;
+        private static EntityRepositoryFactory instance;
 
-        public EntityRepositoryFactory()
+        EntityRepositoryFactory()
         {
             this.domainManager = new DomainManager();
         }
 
-        public IEntityRepository<T> GetByType<T>(Type entityType) where T: Entity
+        static EntityRepositoryFactory()
+        {
+
+        }
+
+        public static EntityRepositoryFactory Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (syncRoot)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new EntityRepositoryFactory();
+                        }
+                    }
+                }
+
+                return instance;
+            }
+        }
+
+        public IEntityRepository<T> GetByType<T>() where T: Entity
         {
             dynamic result = null;
-            if(entityType == typeof(OptimisticEntity))
+            if(typeof(T) == typeof(OptimisticEntity))
             {
                 result = new OptimisticEntityRepository(this.domainManager);
             }
-            else if (entityType == typeof(PessimisticEntity))
+            else if (typeof(T) == typeof(PessimisticEntity))
             {
                 result = new PessimisticEntityRepository(this.domainManager);
             }
-            else if (entityType == typeof(User))
+            else if (typeof(T) == typeof(User))
             {
                 result = new EntityRepository<User>(this.domainManager);
             }
