@@ -13,23 +13,6 @@ namespace EntityLocks.Web
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/libs/jquery-{version}.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
-                "~/Scripts/libs/knockout-{version}.js",
-                "~/Scripts/libs/knockout.validation.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/app").Include(
-                "~/Scripts/app/boostrap/ajaxPrefilters.js",
-                "~/Scripts/app/boostrap/app.bindings.js",
-                "~/Scripts/app/boostrap/app.datamodel.js",
-                "~/Scripts/app/boostrap/app.viewmodel.js",
-                "~/Scripts/app/boostrap/home.viewmodel.js",
-                "~/Scripts/app/boostrap/login.viewmodel.js",
-                "~/Scripts/app/boostrap/register.viewmodel.js",
-                "~/Scripts/app/boostrap/registerExternal.viewmodel.js",
-                "~/Scripts/app/boostrap/manage.viewmodel.js",
-                "~/Scripts/app/boostrap/userInfo.viewmodel.js",
-                "~/Scripts/app/_run.js"));
-
             // Используйте версию Modernizr для разработчиков, чтобы учиться работать. Когда вы будете готовы перейти к работе,
             // используйте средство построения на сайте http://modernizr.com, чтобы выбрать только нужные тесты.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(

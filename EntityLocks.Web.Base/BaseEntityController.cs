@@ -2,11 +2,10 @@
 {
     using EntityLocks.DAL;
     using EntityLocks.Domain.Base;
-    using System.Web.Http;
-    using System.Linq;
     using System;
     using System.Collections.Generic;
-    using AutoMapper;
+    using System.Linq;
+    using System.Web.Http;
 
     public class BaseEntityController<T, TModel> : ApiController where T: Entity where TModel: BaseEntityModel<T>
     {
