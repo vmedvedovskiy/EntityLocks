@@ -194,15 +194,19 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\app\main.js" />
+    <Content Include="Scripts\app\main\mainController.js" />
+    <Content Include="Scripts\app\main\mainModel.js" />
+    <Content Include="Scripts\app\run.js" />
+    <Content Include="Scripts\libs\agility.min.js" />
     <Content Include="Scripts\libs\bootstrap.min.js" />
     <None Include="Scripts\libs\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\libs\curl.js" />
     <Content Include="Scripts\libs\jquery-1.10.2.js" />
     <Content Include="Scripts\libs\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\libs\knockout-2.3.0.js" />
-    <Content Include="Scripts\libs\knockout.validation.js" />
     <Content Include="Scripts\libs\modernizr-2.6.2.js" />
     <Content Include="Scripts\libs\respond.min.js" />
-    <Content Include="Scripts\libs\_references.js" />
+    <Content Include="Scripts\libs\router.js" />
     <Content Include="Views\Home\_Login.cshtml" />
     <Content Include="Views\Home\_Register.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -224,7 +228,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\app\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
