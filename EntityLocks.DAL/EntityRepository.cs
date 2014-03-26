@@ -32,7 +32,7 @@ namespace EntityLocks.DAL
         /// Loads a single entity.
         /// </summary>
         /// <returns>Single Entity</returns>
-        public virtual T Load(Guid entityId)
+        public virtual T Load(int entityId)
         {
             if (entityId == null)
             {
@@ -53,7 +53,7 @@ namespace EntityLocks.DAL
 
         public virtual void New(T ent)
         {
-            ent.Id = new Guid();
+            ent.Id = 0;
             this.Save(ent);
         }
 

@@ -1,7 +1,7 @@
 ﻿namespace EntityLocks.Web.Base
 {
-    using EntityLocks.Domain.Base;
     using AutoMapper;
+    using EntityLocks.Domain.Base;
 
     public class BaseEntityModel<T> where T: Entity
     {
@@ -13,7 +13,10 @@
             this.MapToModel();
         }
 
-        public T Entity { get { return (T)Mapper.Map(this, this.entity, this.GetType(), this.entity.GetType()); } }
+        public T GetEntity()
+        {
+            return (T)Mapper.Map(this, this.entity, this.GetType(), this.entity.GetType());
+        }
 
         private void MapToModel()
         {

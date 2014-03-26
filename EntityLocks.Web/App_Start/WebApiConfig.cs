@@ -11,13 +11,6 @@
         {
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             config.MapHttpAttributeRoutes();
-
-            //RouteTable.Routes.MapRoute(
-            //    name: "index",
-            //    url: "{controller}/{action}",
-            //    defaults: new { controller = "Home", action = "Index" }
-            //);
-
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

@@ -8,13 +8,12 @@ namespace EntityLocks.DAL
 
     public class EntityRepositoryFactory
     {
-        private static readonly object syncRoot = new object();
         private DomainManager domainManager;
         private static EntityRepositoryFactory instance;
 
-        EntityRepositoryFactory()
+        public EntityRepositoryFactory(string connectionString)
         {
-            this.domainManager = new DomainManager();
+            this.domainManager = new DomainManager(connectionString);
         }
 
         static EntityRepositoryFactory()
@@ -22,23 +21,9 @@ namespace EntityLocks.DAL
 
         }
 
-        public static EntityRepositoryFactory Instance
+        public void Configure(string connectionString)
         {
-            get
-            {
-                if (instance == null)
-                {
-                    lock (syncRoot)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new EntityRepositoryFactory();
-                        }
-                    }
-                }
-
-                return instance;
-            }
+ 
         }
 
         public IEntityRepository<T> GetByType<T>() where T: Entity

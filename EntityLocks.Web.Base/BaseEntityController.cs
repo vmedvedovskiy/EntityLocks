@@ -5,6 +5,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Web;
+    using System.Web.Configuration;
     using System.Web.Http;
 
     public class BaseEntityController<T, TModel> : ApiController where T: Entity where TModel: BaseEntityModel<T>
@@ -14,7 +16,9 @@
         public BaseEntityController()
             : base()
         {
-            this.repository = EntityRepositoryFactory.Instance.GetByType<T>();
+            var connectionString = WebConfigurationManager.ConnectionStrings["SQLite"].ToString();
+            var erf = new EntityRepositoryFactory(connectionString);
+            this.repository = erf.GetByType<T>();
         }
 
         // GET api/<controller>
@@ -26,7 +30,7 @@
 
         // GET api/<controller>/5
         [HttpGet]
-        public virtual TModel Get(Guid id)
+        public virtual TModel Get(int id)
         {
             return Activator.CreateInstance(typeof(TModel), this.repository.Load(id)) as TModel;
         }
@@ -42,7 +46,7 @@
         }
 
         // DELETE api/<controller>/5
-        public virtual void Delete(Guid id)
+        public virtual void Delete(int id)
         {
         }
     }

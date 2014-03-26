@@ -205,6 +205,7 @@
     <Content Include="Scripts\app\server\requestManager.js" />
     <Content Include="Scripts\libs\agility.min.js" />
     <Content Include="Scripts\libs\bootstrap.min.js" />
+    <Content Include="App_Data\app.sqlite" />
     <None Include="Scripts\libs\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\libs\curl.js" />
     <Content Include="Scripts\libs\jquery-1.10.2.js" />
@@ -231,9 +232,7 @@
     <Content Include="Scripts\libs\jquery-1.10.2.min.map" />
     <Content Include="Views\Entities\OptimisticEntityList.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

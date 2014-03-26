@@ -17,7 +17,7 @@ namespace EntityLocks.DAL
         /// Loads a single entity.
         /// </summary>
         /// <returns>Single Entity</returns>
-        T Load(Guid entityId);
+        T Load(int entityId);
 
         /// <summary>
         /// Save an existing entity.
