@@ -18,12 +18,14 @@
         }
 
         // GET api/<controller>
+        [HttpGet]
         public virtual IEnumerable<TModel> Get()
         {
             return this.repository.Load().Select(x => Activator.CreateInstance(typeof(TModel), x) as TModel);
         }
 
         // GET api/<controller>/5
+        [HttpGet]
         public virtual TModel Get(Guid id)
         {
             return Activator.CreateInstance(typeof(TModel), this.repository.Load(id)) as TModel;

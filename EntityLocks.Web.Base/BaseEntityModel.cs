@@ -13,7 +13,7 @@
             this.MapToModel();
         }
 
-        public T Entity { get { return Mapper.Map(this, this.entity); } }
+        public T Entity { get { return (T)Mapper.Map(this, this.entity, this.GetType(), this.entity.GetType()); } }
 
         private void MapToModel()
         {

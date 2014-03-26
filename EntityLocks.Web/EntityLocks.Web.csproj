@@ -173,9 +173,11 @@
     <Compile Include="App_Start\AutoMapperConfiguration.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OptimisticEntityController.cs" />
+    <Compile Include="CustomControllerSelectorcs.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -194,10 +196,13 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\app\common\enums.js" />
+    <Content Include="Scripts\app\common\error.js" />
     <Content Include="Scripts\app\main.js" />
     <Content Include="Scripts\app\main\mainController.js" />
     <Content Include="Scripts\app\main\mainModel.js" />
     <Content Include="Scripts\app\run.js" />
+    <Content Include="Scripts\app\server\requestManager.js" />
     <Content Include="Scripts\libs\agility.min.js" />
     <Content Include="Scripts\libs\bootstrap.min.js" />
     <None Include="Scripts\libs\jquery-1.10.2.intellisense.js" />

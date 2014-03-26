@@ -12,16 +12,16 @@
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             config.MapHttpAttributeRoutes();
 
-            config.Routes.MapHttpRoute(
-                name: "EntitiesApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
+            //RouteTable.Routes.MapRoute(
+            //    name: "index",
+            //    url: "{controller}/{action}",
+            //    defaults: new { controller = "Home", action = "Index" }
+            //);
 
-            RouteTable.Routes.MapRoute(
-                name: "index",
-                url: "{controller}/{action}",
-                defaults: new { controller = "Home", action = "Index" }
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
             );
         }
     }

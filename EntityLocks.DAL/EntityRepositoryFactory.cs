@@ -8,7 +8,7 @@ namespace EntityLocks.DAL
 
     public class EntityRepositoryFactory
     {
-        private static readonly object syncRoot = null;
+        private static readonly object syncRoot = new object();
         private DomainManager domainManager;
         private static EntityRepositoryFactory instance;
 
