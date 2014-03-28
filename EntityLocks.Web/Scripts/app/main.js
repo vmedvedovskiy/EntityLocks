@@ -1,4 +1,4 @@
-﻿define(['app/main/mainModel', 'app/main/mainController'], function (appModel, appController) {
+﻿define(['app/modules/main/mainModel', 'app/modules/main/mainController'], function (appModel, appController) {
 
     var mainHTML = '<div class="container body-content">\
         <div class="navbar navbar-inverse navbar-fixed-top">\
@@ -23,9 +23,9 @@
                         <li><a href="#">Выход</a></li>\
                     </ul>\
                 </div>\
-                <div class="content"></div>\
             </div>\
         </div>\
+        <div class="content"></div>\
         <hr />\
         <footer>\
             <p>&copy; 2014 – приложение ASP.NET</p>\

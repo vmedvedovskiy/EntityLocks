@@ -196,18 +196,23 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\app\base\baseModel.js" />
     <Content Include="Scripts\app\common\enums.js" />
     <Content Include="Scripts\app\common\error.js" />
     <Content Include="Scripts\app\main.js" />
-    <Content Include="Scripts\app\main\mainController.js" />
-    <Content Include="Scripts\app\main\mainModel.js" />
+    <Content Include="Scripts\app\modules\entities\optimistic\optimisticList.js" />
+    <Content Include="Scripts\app\modules\entities\optimistic\optimisticModel.js" />
+    <Content Include="Scripts\app\modules\main\mainController.js" />
+    <Content Include="Scripts\app\modules\main\mainModel.js" />
+    <Content Include="Scripts\app\modules\routes.js" />
     <Content Include="Scripts\app\run.js" />
-    <Content Include="Scripts\app\server\requestManager.js" />
+    <Content Include="Scripts\app\modules\server\requestManager.js" />
     <Content Include="Scripts\libs\agility.min.js" />
     <Content Include="Scripts\libs\bootstrap.min.js" />
     <Content Include="App_Data\app.sqlite" />
     <None Include="Scripts\libs\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\libs\curl.js" />
+    <Content Include="Scripts\libs\history.js" />
     <Content Include="Scripts\libs\jquery-1.10.2.js" />
     <Content Include="Scripts\libs\jquery-1.10.2.min.js" />
     <Content Include="Scripts\libs\modernizr-2.6.2.js" />
@@ -230,7 +235,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Scripts\libs\jquery-1.10.2.min.map" />
-    <Content Include="Views\Entities\OptimisticEntityList.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -33,23 +33,22 @@
                 using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                 {
                     cmd.Connection.Open();
-                    using (IDataReader rdr = cmd.ExecuteReader())
+                    using (IDataReader reader = cmd.ExecuteReader())
                     {
-
                         PropertyInfo pInfo;
                         object x;
-                        while (rdr.Read())
+                        while (reader.Read())
                         {
                             x = Activator.CreateInstance(entityType);
-                            for (int i = 0; i < rdr.FieldCount; i++)
+                            for (int i = 0; i < reader.FieldCount; i++)
                             {
-                                var cat = rdr[i];
+                                var cat = reader[i];
                                 if (cat is Int64)
                                 {
                                     cat = Convert.ToInt32((Int64)cat);
                                 }
 
-                                pInfo = entityType.GetProperty(rdr.GetName(i), BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+                                pInfo = entityType.GetProperty(reader.GetName(i), BindingFlags.Instance | BindingFlags.Public);
                                 pInfo.SetValue(x, cat, null);
                             }
 

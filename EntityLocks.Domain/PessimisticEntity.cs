@@ -3,7 +3,7 @@
     using EntityLocks.Domain.Base;
     using System;
 
-    public class PessimisticEntity: LockableEntity
+    public class PessimisticEntity: Entity
     {
         public string Name { get; set; }
 

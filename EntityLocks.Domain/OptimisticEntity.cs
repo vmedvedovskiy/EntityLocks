@@ -2,7 +2,7 @@
 {
     using EntityLocks.Domain.Base;
 
-    public class OptimisticEntity : LockableEntity
+    public class OptimisticEntity : Entity
     {
         public int ObjectsCount { get; set; }
 
