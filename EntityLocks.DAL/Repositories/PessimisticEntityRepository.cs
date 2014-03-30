@@ -13,7 +13,26 @@
         public override void Save(PessimisticEntity ent)
         {
             ent.Holder = null;
-            base.Save(ent);
+        }
+
+        public override void Delete(Guid entitiyId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override System.Collections.Generic.IList<PessimisticEntity> Load()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override PessimisticEntity Load(Guid entityId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Guid New(PessimisticEntity ent)
+        {
+            throw new NotImplementedException();
         }
     }
 }

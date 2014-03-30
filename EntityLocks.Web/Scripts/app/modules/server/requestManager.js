@@ -3,29 +3,49 @@
     var serverUrl = "http://localhost:1578";
     var apiPrefix = "api";
 
-    function RequestManager() {
-
+    function RequestManager(controllerName) {
+        this.controller = controllerName;
     };
 
-    RequestManager.prototype.sendGetQuery = function (controller, callback, parameters) {
-        sendQuery(Enums.query.GET, controller, callback, parameters);
+    RequestManager.prototype.loadAll = function (callback, errback) {
+        sendQuery.call(this, Enums.query.GET, callback, errback);
+    };
+
+    RequestManager.prototype.load = function (callback, errback, id) {
+        sendQuery.call(this, Enums.query.GET, callback, errback, id);
+    };
+
+    RequestManager.prototype.save = function (callback, errback, id, entity) {
+        sendQuery.call(this, Enums.query.PUT, callback, errback, id, entity);
+    };
+
+    RequestManager.prototype.new = function (callback, errback, entity) {
+        sendQuery.call(this, Enums.query.POST, callback, errback, undefined, entity);
+    };
+
+    RequestManager.prototype.delete = function (callback, errback, id) {
+        sendQuery.call(this, Enums.query.DELETE, callback, errback, id);
     };
 
 
-    function sendQuery(method, controller, callback, parameters) {
+    function sendQuery(method, callback, errback, parameters, data) {
         $.ajax({
             method: method,
-            dataType: 'json',
-            url: [serverUrl, apiPrefix, controller, parameters].join('/')
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            url: [serverUrl, apiPrefix, this.controller, parameters].join('/')
         })
         .done(function (responce) {
             callback(responce);
         })
         .fail(function (error) {
+            if (errback && errback !== null) {
+                errback(error);
+            }
+
             errorHandler.onError(error.message || error);
         });
     }
 
-    var instance = new RequestManager();
-    return instance;
+    return RequestManager;
 });

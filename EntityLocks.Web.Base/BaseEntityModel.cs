@@ -3,13 +3,13 @@
     using AutoMapper;
     using EntityLocks.Domain.Base;
 
-    public class BaseEntityModel<T> where T: Entity
+    public class BaseEntityModel<T> where T : Entity, new()
     {
         private T entity;
 
         public BaseEntityModel(T entity)
         {
-            this.entity = entity;
+            this.entity = entity ?? new T();
             this.MapToModel();
         }
 

@@ -192,6 +192,19 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\animated-overlay.gif" />
+    <Content Include="Content\images\ui-bg_diagonals-thick_15_0b3e6f_40x40.png" />
+    <Content Include="Content\images\ui-bg_dots-medium_30_0b58a2_4x4.png" />
+    <Content Include="Content\images\ui-bg_dots-small_20_333333_2x2.png" />
+    <Content Include="Content\images\ui-bg_dots-small_30_a32d00_2x2.png" />
+    <Content Include="Content\images\ui-bg_dots-small_40_00498f_2x2.png" />
+    <Content Include="Content\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\images\ui-bg_flat_40_292929_40x100.png" />
+    <Content Include="Content\images\ui-bg_gloss-wave_20_111111_500x100.png" />
+    <Content Include="Content\images\ui-icons_00498f_256x240.png" />
+    <Content Include="Content\images\ui-icons_98d2fb_256x240.png" />
+    <Content Include="Content\images\ui-icons_9ccdfc_256x240.png" />
+    <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -200,20 +213,21 @@
     <Content Include="Scripts\app\common\enums.js" />
     <Content Include="Scripts\app\common\error.js" />
     <Content Include="Scripts\app\main.js" />
+    <Content Include="Scripts\app\modules\entities\optimistic\optimisticConflict.js" />
+    <Content Include="Scripts\app\modules\entities\optimistic\optimisticDisplay.js" />
+    <Content Include="Scripts\app\modules\entities\optimistic\optimisticEdit.js" />
     <Content Include="Scripts\app\modules\entities\optimistic\optimisticList.js" />
-    <Content Include="Scripts\app\modules\entities\optimistic\optimisticModel.js" />
     <Content Include="Scripts\app\modules\main\mainController.js" />
     <Content Include="Scripts\app\modules\main\mainModel.js" />
     <Content Include="Scripts\app\modules\routes.js" />
+    <Content Include="Scripts\app\modules\server\optimisticRequestManager.js" />
     <Content Include="Scripts\app\run.js" />
     <Content Include="Scripts\app\modules\server\requestManager.js" />
     <Content Include="Scripts\libs\agility.min.js" />
     <Content Include="Scripts\libs\bootstrap.min.js" />
     <Content Include="App_Data\app.sqlite" />
-    <None Include="Scripts\libs\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\libs\curl.js" />
     <Content Include="Scripts\libs\history.js" />
-    <Content Include="Scripts\libs\jquery-1.10.2.js" />
     <Content Include="Scripts\libs\jquery-1.10.2.min.js" />
     <Content Include="Scripts\libs\modernizr-2.6.2.js" />
     <Content Include="Scripts\libs\respond.min.js" />
@@ -234,7 +248,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Scripts\libs\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

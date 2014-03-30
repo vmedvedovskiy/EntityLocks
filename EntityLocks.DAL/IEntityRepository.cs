@@ -17,7 +17,7 @@ namespace EntityLocks.DAL
         /// Loads a single entity.
         /// </summary>
         /// <returns>Single Entity</returns>
-        T Load(int entityId);
+        T Load(Guid entityId);
 
         /// <summary>
         /// Save an existing entity.
@@ -26,15 +26,15 @@ namespace EntityLocks.DAL
         void Save(T ent);
 
         /// <summary>
-        /// Creates a new entity;
+        /// Creates a new entity.
         /// </summary>
         /// <param name="ent"></param>
-        void New(T ent);
+        Guid New(T ent);
 
         /// <summary>
         /// Deletes an entity.
         /// </summary>
         /// <param name="entityId">Entity that needs to be deleted</param>
-        void Delete(T ent);
+        void Delete(Guid entityId);
     }
 }

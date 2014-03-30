@@ -8,9 +8,9 @@ namespace EntityLocks.DAL
     using System.Data;
     using System.Linq;
 
-    internal class EntityRepository<T> : IEntityRepository<T> where T : Entity
+    internal abstract class EntityRepository<T> : IEntityRepository<T> where T : Entity
     {
-        private DomainManager domainManager;
+        protected DomainManager domainManager;
 
         public EntityRepository(DomainManager manager)
         {
@@ -23,48 +23,27 @@ namespace EntityLocks.DAL
         /// Loads a list of entites.
         /// </summary>
         /// <returns>List of all entities of given type in database</returns>
-        public virtual IList<T> Load()
-        {
-            return this.domainManager.Load(typeof(T)).Cast<T>().ToList();
-        }
+        public abstract IList<T> Load();
 
         /// <summary>
         /// Loads a single entity.
         /// </summary>
         /// <returns>Single Entity</returns>
-        public virtual T Load(int entityId)
-        {
-            if (entityId == null)
-            {
-                throw new DataException(Strings.MissingIdMessage);
-            }
-
-            return (T)this.domainManager.Load(typeof(T), entityId);
-        }
+        public abstract T Load(Guid entityId);
 
         /// <summary>
         /// Save an entity.
         /// </summary>
         /// <param name="ent"></param>
-        public virtual void Save(T ent)
-        {
-            this.domainManager.Save(ent);
-        }
+        public abstract void Save(T ent);
 
-        public virtual void New(T ent)
-        {
-            ent.Id = 0;
-            this.Save(ent);
-        }
+        public abstract Guid New(T ent);
 
         /// <summary>
         /// Deletes an entity.
         /// </summary>
         /// <param name="entityId">Entity that needs to be deleted</param>
-        public virtual void Delete(T ent)
-        {
-            this.domainManager.Delete(ent);
-        }
+        public abstract void Delete(Guid entityId);
 
         #endregion
     }

@@ -7,7 +7,7 @@
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                "~/Scripts/libs/jquery-{version}.js"));
+                "~/Scripts/libs/jquery-1.10.2.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                 "~/Scripts/libs/bootstrap.min.js",

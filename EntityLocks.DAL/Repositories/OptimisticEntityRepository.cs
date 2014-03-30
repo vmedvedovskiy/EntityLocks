@@ -2,18 +2,82 @@
 {
     using EntityLocks.Domain;
     using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Diagnostics;
 
-    internal class OptimisticEntityRepository : EntityRepository<OptimisticEntity>
+    internal sealed class OptimisticEntityRepository : EntityRepository<OptimisticEntity>
     {
+        private static int idCounter = 0;
+
         public OptimisticEntityRepository(DomainManager manager)
             : base(manager)
         {
         }
 
-        public override void New(OptimisticEntity ent)
+        public override Guid New(OptimisticEntity ent)
         {
             ent.Version = 1;
-            base.New(ent);
+            ent.Id = Guid.NewGuid();
+            string sql = string.Format(@"INSERT INTO OptimisticEntity (Id, ObjectsCount, Notes, Version) VALUES('{3}', {0}, '{1}', {2})",
+                ent.ObjectsCount, ent.Notes, ent.Version, ent.Id.ToString());
+            this.domainManager.Save(sql);
+            return ent.Id;
+        }
+
+        public override IList<OptimisticEntity> Load()
+        {
+            IList<OptimisticEntity> result = new List<OptimisticEntity>();
+            using (IDataReader reader = this.domainManager.Load("SELECT * from OptimisticEntity"))
+            {
+                OptimisticEntity ent;
+                while (reader.Read())
+                {
+                    ent = new OptimisticEntity();
+                    this.FillEntityFields(reader, ent);
+                    result.Add(ent);
+                }
+            }
+
+            return result;
+        }
+
+        private void FillEntityFields(IDataReader reader, OptimisticEntity ent)
+        {
+            ent.Id = new Guid(reader.GetString(0));
+            ent.ObjectsCount = reader.GetInt32(1);
+            ent.Notes = reader.GetString(2);
+            ent.Version = reader.GetInt32(3);
+        }
+
+        // TODO try/catch
+        public override OptimisticEntity Load(Guid entityId)
+        {
+            OptimisticEntity result = new OptimisticEntity();
+            using (IDataReader reader = this.domainManager.Load(
+                string.Format("SELECT * from OptimisticEntity WHERE Id='{0}'", entityId)))
+            {
+                while (reader.Read())
+                {
+                    this.FillEntityFields(reader, result);
+                }
+            }
+
+            return result;
+        }
+
+        public override void Delete(Guid entityId)
+        {
+            string sql = string.Format(@"DELETE FROM OptimisticEntity WHERE Id = '{0}'", entityId);
+            this.domainManager.Save(sql);
+        }
+
+        public override void Save(OptimisticEntity ent)
+        {
+            ent.Version += 1;
+            string sql = string.Format(@"UPDATE OptimisticEntity SET ObjectsCount = {0}, Notes = '{1}', Version = {2} WHERE Id = '{3}'", 
+                ent.ObjectsCount, ent.Notes, ent.Version, ent.Id);
+            this.domainManager.Save(sql);
         }
     }
 }

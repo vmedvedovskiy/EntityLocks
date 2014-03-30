@@ -19,64 +19,35 @@
         {
             this.connectionString = connectionString;
         }
+
         /// <summary>
         /// Loads a list of entites.
         /// </summary>
-        /// <returns>List of all entities of given type in database</returns>
-        public IList<Entity> Load(Type entityType)
+        /// <param name="sqlCommand"></param>
+        /// <returns></returns>
+        public IDataReader Load(string sqlCommand)
         {
-            var result = new List<Entity>();
-            string tableName = entityType.Name;
-            using (SQLiteConnection conn = new SQLiteConnection(this.connectionString))
-            {
-                var query = string.Format("Select * from {0}", tableName);
-                using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
-                {
-                    cmd.Connection.Open();
-                    using (IDataReader reader = cmd.ExecuteReader())
-                    {
-                        PropertyInfo pInfo;
-                        object x;
-                        while (reader.Read())
-                        {
-                            x = Activator.CreateInstance(entityType);
-                            for (int i = 0; i < reader.FieldCount; i++)
-                            {
-                                var cat = reader[i];
-                                if (cat is Int64)
-                                {
-                                    cat = Convert.ToInt32((Int64)cat);
-                                }
-
-                                pInfo = entityType.GetProperty(reader.GetName(i), BindingFlags.Instance | BindingFlags.Public);
-                                pInfo.SetValue(x, cat, null);
-                            }
-
-                            result.Add((Entity)x);
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Loads a single entity.
-        /// </summary>
-        /// <returns>Single Entity</returns>
-        public Entity Load(Type entityType, int entityId)
-        {
-            return null;
+            // without using statement, because callee of this method will use IDataReader
+            SQLiteConnection conn = new SQLiteConnection(this.connectionString);
+            SQLiteCommand cmd = new SQLiteCommand(sqlCommand, conn);
+            cmd.Connection.Open();
+            return cmd.ExecuteReader();
         }
 
         /// <summary>
         /// Save an entity.
         /// </summary>
-        /// <param name="ent"></param>
-        public void Save(Entity ent)
+        /// <param name="sql"></param>
+        public void Save(string sql)
         {
-            
+            using (SQLiteConnection conn = new SQLiteConnection(this.connectionString))
+            {
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery(CommandBehavior.SingleRow);
+                }
+            }          
         }
 
         /// <summary>

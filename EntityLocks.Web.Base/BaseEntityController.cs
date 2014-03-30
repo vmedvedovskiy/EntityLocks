@@ -9,9 +9,9 @@
     using System.Web.Configuration;
     using System.Web.Http;
 
-    public class BaseEntityController<T, TModel> : ApiController where T: Entity where TModel: BaseEntityModel<T>
+    public class BaseEntityController<T, TModel> : ApiController where T: Entity, new() where TModel: BaseEntityModel<T>
     {
-        private IEntityRepository<T> repository;
+        protected IEntityRepository<T> repository;
 
         public BaseEntityController()
             : base()
@@ -30,24 +30,30 @@
 
         // GET api/<controller>/5
         [HttpGet]
-        public virtual TModel Get(int id)
+        public virtual TModel Get(Guid id)
         {
             return Activator.CreateInstance(typeof(TModel), this.repository.Load(id)) as TModel;
         }
 
         // POST api/<controller>
-        public virtual void Post([FromBody]TModel value)
+        public virtual Guid Post([FromBody]TModel value)
         {
+            var ent = value.GetEntity();
+            return this.repository.New(ent);
         }
 
         // PUT api/<controller>/5
-        public virtual void Put(int id, [FromBody]TModel value)
+        public virtual void Put(string id, [FromBody]TModel value)
         {
+            var ent = value.GetEntity();
+            ent.Id = new Guid(id);
+            this.repository.Save(ent);
         }
 
         // DELETE api/<controller>/5
-        public virtual void Delete(int id)
+        public virtual void Delete(Guid id)
         {
+            this.repository.Delete(id);
         }
     }
 }

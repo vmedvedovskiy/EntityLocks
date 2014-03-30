@@ -1,7 +1,10 @@
 ﻿define([], function () {
     return {
         query: {
-            GET: 'GET'
+            GET: 'GET',
+            POST: 'POST',
+            PUT: 'PUT',
+            DELETE: 'DELETE'
         }
     };
 })
