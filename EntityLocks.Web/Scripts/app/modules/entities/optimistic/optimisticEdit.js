@@ -10,20 +10,20 @@
                     <h4 class="modal-title">Edit</h4>\
                 </div>\
                 <div class="modal-body">\
-                    <div role="form">\
+                    <form role="form" class="form-horizontal">\
                       <div class="form-group">\
-                        <label for="version">Version</label>\
+                        <label >Version</label>\
                         <input type="text" disabled class="form-control" data-bind="version">\
                       </div>\
                       <div class="form-group">\
-                        <label for="objectsCount">Objects count</label>\
+                        <label >Objects count</label>\
                         <input type="text" class="form-control" data-bind="objectsCount">\
                       </div>\
                       <div class="form-group">\
-                        <label for="notes">Notes</label>\
+                        <label >Notes</label>\
                         <textarea class="form-control" data-bind="notes" />\
                       </div>\
-                    </div>\
+                    </form>\
                 </div>\
                 <div class="modal-footer">\
                       <button type="button" class="btn btn-primary" save>Save</button>\
@@ -62,18 +62,23 @@
                             }.bind(this), 
                             function (error) {
                                 if (error.status === 409) {
-                                    this.view.$().modal('hide');
+                                     this.view.$('div.modal-body').empty();
                                     this.controller.resolveConflict();
                                 }
                             }.bind(this), this.model.get('id'), this.model.get());
                     },
 
                     resolveConflict: function () {
-                        if (!this.resolveConflictControl) {
-                            this.resolveConflictControl = new resolveConflictControl(this.model.get());
+                        if (this.resolveConflictControl) {
+                            this.resolveConflictControl.destroy();
                         }
 
-                        this.resolveConflictControl.controller.showModal();
+                        this.resolveConflictControl = new resolveConflictControl(this.model.get());
+                        this.model.set({ version: this.resolveConflictControl.model.get('version') });
+                        this.append(this.resolveConflictControl, 'div.modal-body');
+                        // update bindings - replace references from nodes of added resolveConflictControl to result model
+                        this.view.bindings();
+                        this.view.sync();
                     },
 
                     new: function () {

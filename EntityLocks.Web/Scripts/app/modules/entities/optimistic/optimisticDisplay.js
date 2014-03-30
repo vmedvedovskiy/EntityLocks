@@ -2,15 +2,15 @@
     var displayView =
             '<div role="form">\
                 <div class="form-group">\
-                    <label for="version">Version</label>\
-                    <label class="form-control" data-bind="version">\
+                    <label>Version</label>\
+                    <label disabled class="form-control" data-bind="version">\
                 </div>\
                 <div class="form-group">\
-                    <label for="objectsCount">Objects count</label>\
+                    <label>Objects count</label>\
                     <label class="form-control" data-bind="objectsCount">\
                 </div>\
                 <div class="form-group">\
-                    <label for="notes">Notes</label>\
+                    <label>Notes</label>\
                     <label class="form-control" data-bind="notes" />\
                 </div>\
             </div>';
@@ -22,9 +22,15 @@
                 format: displayView
             },
             controller: {
-                'click label': function (event) {
-                    $(event.target).addClass('selected')
+                'click label[data-bind]': function (event) {
+                    $(event.target).toggleClass('selected');
                     this.trigger('selected', event.target.getAttribute('data-bind'));
+                },
+                select: function (field) {
+                    this.view.$('[data-bind="' + field + '"]').addClass('selected')
+                },
+                unselect: function (field) {
+                    this.view.$('[data-bind="' + field + '"]').removeClass('selected')
                 }
             }
         })

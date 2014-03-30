@@ -2,46 +2,30 @@
     function (requestManager, displayEntityControl) {
 
         var editView =
-        '<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">\
-          <div class="modal-dialog modal-sm">\
-            <div class="modal-content">\
-                <div class="modal-header">\
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\
-                    <h4 class="modal-title">Edit conflict</h4>\
-                </div>\
-                <div class="modal-body">\
-                    <div role="form">\
-                      <div class="row">\
-                          <div class="form-group left col-md-6"></div>\
-                          <div class="form-group right col-md-6"></div>\
-                      </div>\
-                      <div class="row">\
-                          <div class="form-group col-md-12">\
-                            <div role="form">\
-                              <div class="form-group">\
-                                <label for="version">Version</label>\
-                                <input type="text" disabled class="form-control" data-bind="version">\
-                              </div>\
-                              <div class="form-group">\
-                                <label for="objectsCount">Objects count</label>\
-                                <input type="text" class="form-control" data-bind="objectsCount">\
-                              </div>\
-                              <div class="form-group">\
-                                <label for="notes">Notes</label>\
-                                <textarea class="form-control" data-bind="notes" />\
-                              </div>\
-                            </div>\
-                        </div>\
-                      </div>\
+        '<div role="form">\
+            <div class="row">\
+                <div class="form-group left col-md-6"><h3>Theirs:</h3></div>\
+                <div class="form-group right col-md-6"><h3>Yours:</h3></div>\
+            </div>\
+            <div class="row">\
+                <div class="form-group col-md-12">\
+                <div role="form" class="form-horizontal">\
+                    <div class="form-group">\
+                        <label class="col-sm-2">Version</label>\
+                        <input type="text" disabled class="form-control col-sm-6" data-bind="version">\
+                    </div>\
+                    <div class="form-group">\
+                        <label class="col-sm-2">Objects count</label>\
+                        <input type="text" class="form-control col-sm-6" data-bind="objectsCount">\
+                    </div>\
+                    <div class="form-group">\
+                        <label class="col-sm-2">Notes</label>\
+                        <textarea class="form-control col-sm-6" data-bind="notes" />\
                     </div>\
                 </div>\
-                <div class="modal-footer">\
-                      <button type="button" class="btn btn-primary" save>Save</button>\
-                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>\
-                </div>\
-                </div>\
-              </div>\
-            </div>';
+            </div>\
+            </div>\
+        </div>';
 
         return function (existingModel) {
             var copy = {};
@@ -60,13 +44,26 @@
                     },
                     initialize: function (responce) {
                         this.model.set({ version: responce.version });
-                        left = this.append(new displayEntityControl(responce), 'div.left');
-                        right = this.append(new displayEntityControl(existingModel), 'div.right');
-                    },
-                    showModal: function () {
-                        this.view.$().modal();
-                    },
+                        var left = new displayEntityControl(responce),
+                            right = new displayEntityControl(existingModel);
+                        this.append(left, 'div.left');
+                        this.append(right, 'div.right');
+                        left.bind('selected', function (ev, field) {
+                            change.call(this, ev, field, left, right);
+                        }.bind(this));
+
+                        right.bind('selected', function (ev, field) {
+                            change.call(this, ev, field, right, left);
+                        }.bind(this));
+                    }
                 }
             });
         }
+
+        function change(event, field, first, second) {
+            second.controller.unselect(field);
+            var obj = {};
+            obj[field] = first.model.get(field);
+            this.model.set(obj);
+        };
     });
