@@ -1,4 +1,4 @@
-﻿define(['app/modules/server/optimisticRequestManager', 'app/modules/entities/optimistic/optimisticEdit'],
+﻿define(['app/modules/server/optimisticRequestManager', 'app/modules/entities/optimistic/templateEditView'],
     function (requestManager, editView) {
 
         var listView =
@@ -48,13 +48,8 @@
                     },
 
                     showEditView: function () {
-                        if (!this._parent.editView) {
-                            this._parent.editView = new editView(this.model.get());
-                        } else {
-                            this._parent.editView.model.set(this.model.get());
-                        }
-
-                        this._parent.editView.controller.showModal(function () {
+                        this._parent.controller.updateEditViewModel(this.model.get());
+                        this._parent.controller.showEditView(function () {
                             this.controller.refresh();
                         }.bind(this));
                     },
@@ -100,7 +95,7 @@
                     },
 
                     createRow: function (row) {
-                        return rowObject(row);
+                        return new rowObject(row);
                     },
 
                     refresh: function () {
@@ -112,6 +107,13 @@
                             });
 
                         }.bind(this));
+                    },
+
+                    showEditView: function (callbck) {
+                        this.model.get('editView').controller.showModal(callbck);
+                    },
+                    updateEditViewModel: function (model) {
+                        this.model.get('editView').model.set(model);
                     }
                 }
             });

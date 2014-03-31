@@ -1,4 +1,4 @@
-﻿define(['app/modules/routes', 'app/modules/entities/optimistic/optimisticList'], function (Routes, OptimisticList) {
+﻿define(['app/modules/routes', 'app/modules/entities/optimistic/listView'], function (Routes, OptimisticList) {
     var ctrlr = {
         'create': function () {
             this.controller.initRoutes();

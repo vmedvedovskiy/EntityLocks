@@ -1,4 +1,4 @@
-﻿define(['app/modules/server/optimisticRequestManager', 'app/modules/entities/optimistic/optimisticDisplay'],
+﻿define(['app/modules/server/optimisticRequestManager', 'app/modules/entities/optimistic/displayView'],
     function (requestManager, displayEntityControl) {
 
         var editView =
@@ -46,8 +46,8 @@
                         this.model.set({ version: responce.version });
                         var left = new displayEntityControl(responce),
                             right = new displayEntityControl(existingModel);
-                        this.append(left, 'div.left');
-                        this.append(right, 'div.right');
+                        this.append(left, 'div.left')
+                            .append(right, 'div.right');
                         left.bind('selected', function (ev, field) {
                             change.call(this, ev, field, left, right);
                         }.bind(this));
@@ -55,6 +55,7 @@
                         right.bind('selected', function (ev, field) {
                             change.call(this, ev, field, right, left);
                         }.bind(this));
+                        this.trigger('loaded');
                     }
                 }
             });
