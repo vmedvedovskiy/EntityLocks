@@ -25,7 +25,7 @@
         /// </summary>
         /// <param name="sqlCommand"></param>
         /// <returns></returns>
-        public IDataReader Load(string sqlCommand)
+        public IDataReader ExecuteQuery(string sqlCommand)
         {
             // without using statement, because callee of this method will use IDataReader
             SQLiteConnection conn = new SQLiteConnection(this.connectionString);
@@ -38,7 +38,7 @@
         /// Save an entity.
         /// </summary>
         /// <param name="sql"></param>
-        public void Save(string sql)
+        public void ExecuteNonQuery(string sql)
         {
             using (SQLiteConnection conn = new SQLiteConnection(this.connectionString))
             {
@@ -51,12 +51,22 @@
         }
 
         /// <summary>
-        /// Deletes an entity.
+        /// Save an entity.
         /// </summary>
-        /// <param name="entityId">Entity that needs to be deleted</param>
-        public void Delete(Entity ent)
+        /// <param name="sql"></param>
+        public object ExecuteScalarQuery(string sql)
         {
+            var result = new object();
+            using (SQLiteConnection conn = new SQLiteConnection(this.connectionString))
+            {
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Connection.Open();
+                    result = cmd.ExecuteScalar(CommandBehavior.SingleRow);
+                }
+            }
 
+            return result;
         }
     }
 }

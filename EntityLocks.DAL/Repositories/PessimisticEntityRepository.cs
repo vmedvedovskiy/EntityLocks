@@ -34,5 +34,10 @@
         {
             throw new NotImplementedException();
         }
+
+        public override bool IsExists(PessimisticEntity entity)
+        {
+            return false;
+        }
     }
 }

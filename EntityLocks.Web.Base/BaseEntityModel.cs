@@ -2,10 +2,13 @@
 {
     using AutoMapper;
     using EntityLocks.Domain.Base;
+    using System;
 
     public class BaseEntityModel<T> where T : Entity, new()
     {
         private T entity;
+
+        public Guid Id { get; set; }
 
         public BaseEntityModel(T entity)
         {

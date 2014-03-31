@@ -16,6 +16,6 @@
 
         public string AdditionalInfo { get; set; }
 
-        public UserEntityModel Holder { get; set; }
+        public UserModel Holder { get; set; }
     }
 }

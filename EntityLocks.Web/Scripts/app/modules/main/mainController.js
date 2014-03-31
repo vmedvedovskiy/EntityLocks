@@ -1,4 +1,5 @@
-﻿define(['app/modules/routes', 'app/modules/entities/optimistic/listView'], function (Routes, OptimisticList) {
+﻿define(['app/modules/routes', 'app/modules/entities/optimistic/listView', 'app/modules/registration/registrationView'],
+    function (Routes, OptimisticList, RegistrationView) {
     var ctrlr = {
         'create': function () {
             this.controller.initRoutes();
@@ -7,6 +8,10 @@
         initRoutes: function() {
             Routes.add('optimisticList', function () {
                 this.append(new OptimisticList(), 'div.content');
+            }.bind(this));
+
+            Routes.add('registration', function () {
+                this.append(new RegistrationView(), 'div.content');
             }.bind(this));
         }
     };

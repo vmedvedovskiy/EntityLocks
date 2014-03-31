@@ -5,6 +5,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
+    using System.Net.Http;
     using System.Web;
     using System.Web.Configuration;
     using System.Web.Http;
@@ -36,18 +38,21 @@
         }
 
         // POST api/<controller>
-        public virtual Guid Post([FromBody]TModel value)
+        public virtual HttpResponseMessage Post([FromBody]TModel value)
         {
             var ent = value.GetEntity();
-            return this.repository.New(ent);
+            var newId = this.repository.New(ent);
+            var response = Request.CreateResponse<Guid>(HttpStatusCode.Created, newId);
+            return response;
         }
 
         // PUT api/<controller>/5
-        public virtual void Put(string id, [FromBody]TModel value)
+        public virtual HttpResponseMessage Put(string id, [FromBody]TModel value)
         {
             var ent = value.GetEntity();
             ent.Id = new Guid(id);
             this.repository.Save(ent);
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         // DELETE api/<controller>/5

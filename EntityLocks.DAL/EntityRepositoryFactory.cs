@@ -39,7 +39,7 @@ namespace EntityLocks.DAL
             }
             else if (typeof(T) == typeof(User))
             {
-                result = null;//new EntityRepository<User>(this.domainManager);
+                result = new UserRepository(this.domainManager);
             }
 
             return result;

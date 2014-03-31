@@ -20,6 +20,9 @@ namespace EntityLocks.Web.App_Start
             Mapper.CreateMap<PessimisticEntity, PessimisticEntityModel>();
             Mapper.CreateMap<PessimisticEntityModel, PessimisticEntity>();
 
+            Mapper.CreateMap<User, UserModel>();
+            Mapper.CreateMap<UserModel, User>();
+
         }
     }
 }

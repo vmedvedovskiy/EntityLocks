@@ -4,12 +4,9 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.Diagnostics;
 
     internal sealed class OptimisticEntityRepository : EntityRepository<OptimisticEntity>
     {
-        private static int idCounter = 0;
-
         public OptimisticEntityRepository(DomainManager manager)
             : base(manager)
         {
@@ -21,14 +18,14 @@
             ent.Id = Guid.NewGuid();
             string sql = string.Format(@"INSERT INTO OptimisticEntity (Id, ObjectsCount, Notes, Version) VALUES('{3}', {0}, '{1}', {2})",
                 ent.ObjectsCount, ent.Notes, ent.Version, ent.Id.ToString());
-            this.domainManager.Save(sql);
+            this.domainManager.ExecuteNonQuery(sql);
             return ent.Id;
         }
 
         public override IList<OptimisticEntity> Load()
         {
             IList<OptimisticEntity> result = new List<OptimisticEntity>();
-            using (IDataReader reader = this.domainManager.Load("SELECT * from OptimisticEntity"))
+            using (IDataReader reader = this.domainManager.ExecuteQuery("SELECT * from OptimisticEntity"))
             {
                 OptimisticEntity ent;
                 while (reader.Read())
@@ -54,7 +51,7 @@
         public override OptimisticEntity Load(Guid entityId)
         {
             OptimisticEntity result = new OptimisticEntity();
-            using (IDataReader reader = this.domainManager.Load(
+            using (IDataReader reader = this.domainManager.ExecuteQuery(
                 string.Format("SELECT * from OptimisticEntity WHERE Id='{0}'", entityId)))
             {
                 while (reader.Read())
@@ -69,7 +66,7 @@
         public override void Delete(Guid entityId)
         {
             string sql = string.Format(@"DELETE FROM OptimisticEntity WHERE Id = '{0}'", entityId);
-            this.domainManager.Save(sql);
+            this.domainManager.ExecuteNonQuery(sql);
         }
 
         public override void Save(OptimisticEntity ent)
@@ -77,7 +74,12 @@
             ent.Version += 1;
             string sql = string.Format(@"UPDATE OptimisticEntity SET ObjectsCount = {0}, Notes = '{1}', Version = {2} WHERE Id = '{3}'", 
                 ent.ObjectsCount, ent.Notes, ent.Version, ent.Id);
-            this.domainManager.Save(sql);
+            this.domainManager.ExecuteNonQuery(sql);
+        }
+
+        public override bool IsExists(OptimisticEntity entity)
+        {
+            return false;
         }
     }
 }

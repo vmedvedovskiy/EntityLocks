@@ -76,7 +76,8 @@
                         this.controller.createGrid();
                     },
 
-                    'click button[new]': function() {
+                    'click button[new]': function () {
+                        this.model.get('editView').model.reset();
                         this.model.get('editView').controller.showModal(function (id) {
                             requestManager.load(function (responce) {
                                 this.append(this.controller.createRow(responce), 'tbody');

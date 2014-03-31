@@ -107,9 +107,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.1\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Runtime.Serialization" />
@@ -175,15 +175,17 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Authorization\CookieAuthorizationAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OptimisticEntityController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="CustomControllerSelectorcs.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\OptimisticEntityModel.cs" />
     <Compile Include="Models\PessimisticEntityModel.cs" />
-    <Compile Include="Models\UserEntityModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -220,8 +222,10 @@
     <Content Include="Scripts\app\modules\entities\optimistic\simpleEditView.js" />
     <Content Include="Scripts\app\modules\main\mainController.js" />
     <Content Include="Scripts\app\modules\main\mainModel.js" />
+    <Content Include="Scripts\app\modules\registration\registrationView.js" />
     <Content Include="Scripts\app\modules\routes.js" />
     <Content Include="Scripts\app\modules\server\optimisticRequestManager.js" />
+    <Content Include="Scripts\app\modules\server\userRequestManager.js" />
     <Content Include="Scripts\app\run.js" />
     <Content Include="Scripts\app\modules\server\requestManager.js" />
     <Content Include="Scripts\libs\agility.min.js" />
@@ -233,6 +237,7 @@
     <Content Include="Scripts\libs\modernizr-2.6.2.js" />
     <Content Include="Scripts\libs\respond.min.js" />
     <Content Include="Scripts\libs\router.js" />
+    <Content Include="Scripts\libs\sha256.js" />
     <Content Include="Views\Home\_Login.cshtml" />
     <Content Include="Views\Home\_Register.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />

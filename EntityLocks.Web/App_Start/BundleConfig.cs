@@ -15,7 +15,8 @@
 
             bundles.Add(new ScriptBundle("~/bundles/libs").Include(
                 "~/Scripts/libs/agility.min.js",
-                "~/Scripts/libs/history.js"));
+                "~/Scripts/libs/history.js",
+                "~/Scripts/libs/sha256.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                  "~/Content/bootstrap.min.css",

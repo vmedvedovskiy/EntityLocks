@@ -49,6 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\OptimisticEntityRepository.cs" />
     <Compile Include="Repositories\PessimisticEntityRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EntityLocks.Common\EntityLocks.Common.csproj">

@@ -36,5 +36,12 @@ namespace EntityLocks.DAL
         /// </summary>
         /// <param name="entityId">Entity that needs to be deleted</param>
         void Delete(Guid entityId);
+
+        /// <summary>
+        /// Checks if there is the same entity in database
+        /// </summary>
+        /// <param name="entity">Entity to check</param>
+        /// <returns>True, if this entity exists</returns>
+        bool IsExists(T entity);
     }
 }
