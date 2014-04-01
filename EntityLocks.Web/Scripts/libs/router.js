@@ -9,17 +9,68 @@ define([], function () {
     function Router() {
     }
 
+    Router.namedParam = /:\w+/g;
+
+    Router.splatParam = /\*\w+/g;
+
+    Router.prototype.trigger = true;
+
     function Router(routes) {
         var _this = this;
         this.routes = routes != null ? routes : {};
+        History.Adapter.bind(window, 'statechange', function () {
+            return _this.checkRoutes(History.getState());
+        });
     }
 
     Router.prototype.route = function (route, callback) {
-        return this.routes[route] = callback;
+        route = route.replace(Router.namedParam, '([^\/]+)').replace(Router.splatParam, '(.*?)');
+        return this.routes["^" + route + "$"] = callback;
     };
 
-    Router.prototype.navigate = function (url) {
-        this.routes[url]();
+    Router.prototype.checkRoutes = function (state) {
+        var callback, regex, regexText, url, _ref;
+        if (this.trigger) {
+            _ref = this.routes;
+            for (regexText in _ref) {
+                callback = _ref[regexText];
+                regex = new RegExp(regexText);
+                url = state.data.url || state.hash;
+                if (regex.test(url)) callback.apply(window, regex.exec(url).slice(1));
+            }
+        }
+        return this.trigger = true;
+    };
+
+    Router.prototype.navigate = function (url, trigger, replace, name) {
+        if (trigger == null) trigger = true;
+        if (replace == null) replace = false;
+        if (name == null) name = null;
+        this.trigger = trigger;
+        if (replace) {
+            return History.replaceState({
+                'url': url
+            }, null, url);
+        } else {
+            return History.pushState({
+                'url': url
+            }, null, url);
+        }
+    };
+
+    Router.prototype.start = function (url) {
+        var stateObj = {};
+        if (url != null) stateObj = { data: { url: url } };
+        else stateObj = History.getState();
+        return this.checkRoutes(stateObj);
+    };
+
+    Router.prototype.go = function (num) {
+        return History.go(num);
+    };
+
+    Router.prototype.back = function () {
+        return History.back();
     };
 
     var instance = new Router();

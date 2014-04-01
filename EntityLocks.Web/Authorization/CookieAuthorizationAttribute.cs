@@ -28,6 +28,7 @@
             if (string.IsNullOrEmpty(sessionToken))
             {
                 actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                actionContext.Response.Headers.Add("Location", "login");
             }
         }
     }

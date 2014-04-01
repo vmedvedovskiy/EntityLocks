@@ -12,6 +12,8 @@
 
         public const string UserAlreadyExists = "User with this login already exists";
 
+        public const string NoUserInDatabase = "User with specified login is absent.";
+
 	    #endregion    
         
         public const string SessionTokenName = "session";

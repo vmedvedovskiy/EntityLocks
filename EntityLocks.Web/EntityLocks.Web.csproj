@@ -220,8 +220,10 @@
     <Content Include="Scripts\app\modules\entities\optimistic\templateEditView.js" />
     <Content Include="Scripts\app\modules\entities\optimistic\listView.js" />
     <Content Include="Scripts\app\modules\entities\optimistic\simpleEditView.js" />
+    <Content Include="Scripts\app\modules\EventEmitter.js" />
     <Content Include="Scripts\app\modules\main\mainController.js" />
     <Content Include="Scripts\app\modules\main\mainModel.js" />
+    <Content Include="Scripts\app\modules\registration\loginView.js" />
     <Content Include="Scripts\app\modules\registration\registrationView.js" />
     <Content Include="Scripts\app\modules\routes.js" />
     <Content Include="Scripts\app\modules\server\optimisticRequestManager.js" />
@@ -238,8 +240,6 @@
     <Content Include="Scripts\libs\respond.min.js" />
     <Content Include="Scripts\libs\router.js" />
     <Content Include="Scripts\libs\sha256.js" />
-    <Content Include="Views\Home\_Login.cshtml" />
-    <Content Include="Views\Home\_Register.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Web.config">
@@ -261,7 +261,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EntityLocks.Common\EntityLocks.Common.csproj">

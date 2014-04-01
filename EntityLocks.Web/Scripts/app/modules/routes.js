@@ -1,4 +1,4 @@
-﻿define(['libs/router'], function (Router, OptimisticList) {
+﻿define(['libs/router'], function (Router) {
 
     function Routes() {
     };

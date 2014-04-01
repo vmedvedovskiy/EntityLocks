@@ -4,7 +4,6 @@
         '<div>\
             <h2>Регистрация</h2>\
             <form class="form-horizontal" role="form">\
-                <h4>Registration.</h4>\
                 <hr />\
                 <div class="form-group">\
                     <label for="RegisterUserName" class="col-md-2 control-label">User name</label>\

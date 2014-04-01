@@ -1,4 +1,4 @@
-﻿define(['app/common/error', 'app/common/enums'], function (errorHandler, Enums) {
+﻿define(['app/common/error', 'app/common/enums', 'app/modules/EventEmitter'], function (errorHandler, Enums, EventEmitter) {
 
     var serverUrl = "http://localhost:1578";
     var apiPrefix = "api";
@@ -19,8 +19,8 @@
         sendQuery.call(this, Enums.query.PUT, callback, errback, id, entity);
     };
 
-    RequestManager.prototype.new = function (callback, errback, entity) {
-        sendQuery.call(this, Enums.query.POST, callback, errback, undefined, entity);
+    RequestManager.prototype.new = function (callback, errback, entity, action) {
+        sendQuery.call(this, Enums.query.POST, callback, errback, action, entity);
     };
 
     RequestManager.prototype.delete = function (callback, errback, id) {
@@ -44,7 +44,13 @@
             }
 
             errorHandler.onError(error.message || error);
-        });
+        })
+         .always(function (responce, status, jqXHR) {
+             var location = jqXHR.getResponseHeader('Location');
+             if (location !== '' || location !== null) {
+                 EventEmitter.emit(Enums.event.navigate, location);
+             }
+         });
     }
 
     return RequestManager;

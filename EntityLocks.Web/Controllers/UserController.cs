@@ -27,6 +27,21 @@
             return responce;
         }
 
+        public HttpResponseMessage Login([FromBody]UserModel model)
+        {
+            if (this.repository.IsExists(model.GetEntity()))
+            {
+                var responce = base.Post(model);
+                var cookie = this.CreateAuthenticationCookie(model);
+                responce.Headers.AddCookies(new CookieHeaderValue[] { cookie });
+                return responce;
+            }
+            else
+            {
+                return this.Request.CreateErrorResponse(HttpStatusCode.Forbidden, Strings.NoUserInDatabase);
+            }
+        }
+
         private CookieHeaderValue CreateAuthenticationCookie(UserModel model)
         {
             var sessionToken = UserController.CreateSessionToken(model);

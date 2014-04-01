@@ -13,8 +13,8 @@
                 </div>\
                 <div>\
                     <ul class="nav navbar-nav">\
-                        <li><a href="#">Сущности с оптимистической блокировкой</a></li>\
-                        <li><a href="#">Сущности с пессимистической блокировкой</a></li>\
+                        <li><a module="optimisticList">Optimistic lock entites</a></li>\
+                        <li><a module="pessimisticList">Pessimistic lock entites</a></li>\
                     </ul>\
                     <ul class="nav navbar-nav navbar-right" data-bind="with: user">\
                         <li>\

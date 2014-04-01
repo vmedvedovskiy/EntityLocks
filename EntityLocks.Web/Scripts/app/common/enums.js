@@ -5,6 +5,9 @@
             POST: 'POST',
             PUT: 'PUT',
             DELETE: 'DELETE'
+        },
+        event: {
+            navigate: 'navigate'
         }
     };
 })
