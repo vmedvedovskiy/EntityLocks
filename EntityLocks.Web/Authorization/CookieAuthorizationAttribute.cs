@@ -6,6 +6,7 @@
     using System.Web.Http.Controllers;
     using System.Web.Http.Filters;
     using System.Net.Http.Headers;
+    using EntityLocks.Web.Helpers;
 
     public class CookieAuthorizationAttribute : AuthorizationFilterAttribute
     {
@@ -18,14 +19,7 @@
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {
-            var sessionTokenCookies = actionContext.Request.Headers.GetCookies(this.tokenName).FirstOrDefault();
-            string sessionToken = string.Empty;
-            if (sessionTokenCookies != null)
-            {
-                sessionToken = sessionTokenCookies[this.tokenName].Value;
-            }
-
-            if (string.IsNullOrEmpty(sessionToken))
+            if (string.IsNullOrEmpty(AuthorizationHelper.GetAuthenticationToken(actionContext.Request)))
             {
                 actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
                 actionContext.Response.Headers.Add("Location", "login");

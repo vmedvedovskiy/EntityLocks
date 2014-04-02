@@ -3,20 +3,31 @@
     'app/common/enums',
     'app/modules/entities/optimistic/listView',
     'app/modules/registration/registrationView',
-    'app/modules/registration/loginView'],
-    function (Routes, EventEmitter, Enums, OptimisticList, RegistrationView, LoginView) {
+    'app/modules/registration/loginView',
+    'app/modules/home/homeView',
+    'app/modules/server/loginRequestManager'],
+    function (Routes, EventEmitter, Enums, OptimisticList, RegistrationView, LoginView, HomeView, LoginProvider) {
     var ctrlr = {
         'create': function () {
             this.controller.initRoutes();
             EventEmitter.bind(Enums.event.navigate, function (path) {
                 Routes.navigateToModule(path);
             }.bind(this));
-            Routes.navigateToModule('login');
+
+            LoginProvider.getUserInfo(function (responce) {
+                this.model.set({ userName: responce.userName });
+                EventEmitter.emit(Enums.event.navigate, Enums.module.home);
+            }.bind(this),
+            function (error) {
+                EventEmitter.emit(Enums.event.navigate, Enums.module.login);
+            }.bind(this));
+
         },
         initRoutes: function() {
-            this.controller.addRoute('optimisticList', OptimisticList);
-            this.controller.addRoute('registration', RegistrationView);
-            this.controller.addRoute('login', LoginView);
+            this.controller.addRoute(Enums.module.optimisticList, OptimisticList);
+            this.controller.addRoute(Enums.module.registration, RegistrationView);
+            this.controller.addRoute(Enums.module.login, LoginView);
+            this.controller.addRoute(Enums.module.home, HomeView);
         },
 
         clearContent: function() {
@@ -32,8 +43,17 @@
             }.bind(this));
         },
 
-        'click a': function (event) {
+        'click a[module]': function (event) {
             EventEmitter.emit(Enums.event.navigate, event.target.getAttribute('module'));
+        },
+
+        'click a[logout]': function () {
+            LoginProvider.logout(function (responce) {
+                EventEmitter.emit(Enums.event.navigate, Enums.module.login);
+            }.bind(this),
+            function (error) {
+                EventEmitter.emit(Enums.event.navigate, Enums.module.login);
+            }.bind(this));
         }
 
     };

@@ -178,11 +178,13 @@
     <Compile Include="Authorization\CookieAuthorizationAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OptimisticEntityController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="CustomControllerSelectorcs.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AuthorizationHelper.cs" />
     <Compile Include="Models\OptimisticEntityModel.cs" />
     <Compile Include="Models\PessimisticEntityModel.cs" />
     <Compile Include="Models\UserModel.cs" />
@@ -221,13 +223,15 @@
     <Content Include="Scripts\app\modules\entities\optimistic\listView.js" />
     <Content Include="Scripts\app\modules\entities\optimistic\simpleEditView.js" />
     <Content Include="Scripts\app\modules\EventEmitter.js" />
+    <Content Include="Scripts\app\modules\home\homeView.js" />
     <Content Include="Scripts\app\modules\main\mainController.js" />
     <Content Include="Scripts\app\modules\main\mainModel.js" />
     <Content Include="Scripts\app\modules\registration\loginView.js" />
     <Content Include="Scripts\app\modules\registration\registrationView.js" />
     <Content Include="Scripts\app\modules\routes.js" />
     <Content Include="Scripts\app\modules\server\optimisticRequestManager.js" />
-    <Content Include="Scripts\app\modules\server\userRequestManager.js" />
+    <Content Include="Scripts\app\modules\server\loginRequestManager.js" />
+    <Content Include="Scripts\app\modules\server\registerRequestManager.js" />
     <Content Include="Scripts\app\run.js" />
     <Content Include="Scripts\app\modules\server\requestManager.js" />
     <Content Include="Scripts\libs\agility.min.js" />

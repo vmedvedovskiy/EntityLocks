@@ -8,7 +8,7 @@
 
         public const string MissingRepositoryMessage = "Repository must be created before model creation.";
 
-        public const string ConflictSaving = "Server entity has higher version, try to resolver conflict manually.";
+        public const string ConflictSaving = "Server entity has higher version, try to resolve conflict manually.";
 
         public const string UserAlreadyExists = "User with this login already exists";
 

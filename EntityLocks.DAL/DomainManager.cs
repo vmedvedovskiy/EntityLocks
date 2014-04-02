@@ -11,7 +11,7 @@
     /// <summary>
     /// Handles database operations.
     /// </summary>
-    internal class DomainManager
+    public class DomainManager
     {
         private string connectionString;
 

@@ -8,6 +8,13 @@
         },
         event: {
             navigate: 'navigate'
+        },
+        module: {
+            home: 'home',
+            registration: 'registration',
+            login: 'login',
+            optimisticList: 'optimisticList',
+            pessimisticList: 'pessimisticList'
         }
     };
 })

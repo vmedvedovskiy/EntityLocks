@@ -1,14 +1,11 @@
 ﻿
 namespace EntityLocks.DAL
 {
-    using EntityLocks.Common;
     using EntityLocks.Domain.Base;
     using System;
     using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
 
-    internal abstract class EntityRepository<T> : IEntityRepository<T> where T : Entity
+    public abstract class EntityRepository<T> : IEntityRepository<T> where T : Entity
     {
         protected DomainManager domainManager;
 

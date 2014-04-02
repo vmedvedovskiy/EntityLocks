@@ -1,4 +1,4 @@
-﻿define(['app/modules/server/userRequestManager', 'app/modules/EventEmitter', 'app/common/enums'],
+﻿define(['app/modules/server/loginRequestManager', 'app/modules/EventEmitter', 'app/common/enums'],
     function (requestManager, EventEmitter, Enums) {
     var loginHtml =
         '<h2>Log in</h2>\
@@ -39,8 +39,8 @@
                 format: loginHtml
             },
             controller: {
-                'click a': function (event) {
-                    EventEmitter.emit(Enums.event.navigate, event.target.getAttribute('module'));
+                'click a[module=registration]': function (event) {
+                    EventEmitter.emit(Enums.event.navigate, Enums.module.registration);
                 },
 
                 'click button[login]': function () {
@@ -56,7 +56,7 @@
                     userDto.password = hash;
 
                     requestManager.login(function (responce) {
-
+                        EventEmitter.emit(Enums.event.navigate, Enums.module.home);
                     }.bind(this), function (error) {
 
                     }.bind(this), userDto);

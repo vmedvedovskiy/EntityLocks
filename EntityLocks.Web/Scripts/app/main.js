@@ -16,11 +16,11 @@
                         <li><a module="optimisticList">Optimistic lock entites</a></li>\
                         <li><a module="pessimisticList">Pessimistic lock entites</a></li>\
                     </ul>\
-                    <ul class="nav navbar-nav navbar-right" data-bind="with: user">\
+                    <ul class="nav navbar-nav navbar-right">\
                         <li>\
-                            <span class="navbar-text nofloat">Здравствуйте, <a href="#" class="navbar-link"></a>!</span>\
+                            <span class="navbar-text nofloat">Hello, <a href="#" data-bind="userName"></a></span>\
                         </li>\
-                        <li><a href="#">Выход</a></li>\
+                        <li><a href="#" logout>Logout</a></li>\
                     </ul>\
                 </div>\
             </div>\

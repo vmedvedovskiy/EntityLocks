@@ -1,3 +1,5 @@
 ﻿define([], function () {
-    return {};
+    return {
+        userName: ''
+    };
 })

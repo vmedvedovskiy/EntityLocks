@@ -7,7 +7,7 @@
     using System.Security.Cryptography;
     using System.Text;
 
-    internal class UserRepository: EntityRepository<User>
+    public class UserRepository: EntityRepository<User>
     {
         public UserRepository(DomainManager manager)
             : base(manager)
@@ -20,7 +20,7 @@
             var hasher = SHA256.Create();
             var sessionToken = hasher.ComputeHash(Encoding.Default.GetBytes(ent.Login + ent.Password));
             
-            string sql = string.Format(@"INSERT INTO Users (Id, Login, Password, Hash) VALUES('{3}', {0}, '{1}', '{2}')",
+            string sql = string.Format(@"INSERT INTO Users (Id, Login, Password, Hash) VALUES('{3}', '{0}', '{1}', '{2}')",
                 ent.Login, ent.Password, Encoding.Default.GetString(sessionToken), ent.Id.ToString());
             this.domainManager.ExecuteNonQuery(sql);
             return ent.Id;
@@ -85,10 +85,10 @@
             return (Int64)this.domainManager.ExecuteScalarQuery(sql) > 0;
         }
 
-        public bool IsAutohorized(string sessionToken)
+        public string GetLoginByToken(string sessionToken)
         {
-            string sql = string.Format(@"SELECT COUNT(*) FROM Users WHERE Hash = '{0}'", sessionToken);
-            return (Int64)this.domainManager.ExecuteScalarQuery(sql) > 0;
+            string sql = string.Format(@"SELECT Login FROM Users WHERE Hash = '{0}'", sessionToken);
+            return (string)this.domainManager.ExecuteScalarQuery(sql);
         }
     }
 }

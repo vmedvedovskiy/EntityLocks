@@ -2,22 +2,21 @@
     function (requestManager, resolveConflictControl, simpleViewControl) {
 
         var editViewTemplate =
-        '<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">\
-          <div class="modal-dialog modal-sm">\
+    '<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">\
+        <div class="modal-dialog modal-sm">\
             <div class="modal-content">\
                 <div class="modal-header">\
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\
                     <h4 class="modal-title">Edit</h4>\
                 </div>\
                 <div class="modal-body"></div>\
-                <div class="modal-footer">\
-                      <button type="button" class="btn btn-primary" save>Save</button>\
-                      <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>\
+                    <div class="modal-footer">\
+                        <button type="button" class="btn btn-primary" save>Save</button>\
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>\
+                    </div>\
                 </div>\
-                </div>\
-              </div>\
-            </div>';
-
+            </div>\
+        </div>';
 
         return function (entity) {
             return $$({
@@ -40,11 +39,11 @@
                     },
 
                     showModal: function (closeCallback) {
+                        this.controller.updateTitle();
                         this.view.$().modal();
                         this._closeCallback = closeCallback;
                     },
-
-                    
+              
                     new: function () {
                         requestManager.new(function (responce) {
                             this.view.$().modal('hide');
@@ -62,12 +61,13 @@
                             function (error) {
                                 if (error.status === 409) {
                                     this.view.$('div.modal-body').empty();
-                                    this.controller.createResolveConflictControl();
+                                    this.controller.createResolveConflictControl(error.responseJSON.message);
                                 }
                             }.bind(this), id, this.model.get());
                     },
 
-                    createResolveConflictControl: function () {
+                    createResolveConflictControl: function (title) {
+                        this.controller.setTitle(title);
                         if (!this.resolveConflictControl) {
                             this.resolveConflictControl = new resolveConflictControl(this.model.get());
                         }
@@ -81,7 +81,7 @@
                         this.controller.fullUpdate();
                     },
 
-                    createSimpleView: function() {
+                    createSimpleView: function () {
                         if (!this.simpleEditView) {
                             this.simpleEditView = new simpleViewControl();
                         }
@@ -101,6 +101,14 @@
                         this.each(function () {
                             this.destroy();
                         })
+                    },
+
+                    setTitle: function (title) {
+                        this.view.$('h4.modal-title').html(title);
+                    },
+
+                    updateTitle: function () {
+                        this.controller.setTitle(this.model.get('id') === undefined ? 'New' : 'Edit');
                     }
                 }
             });

@@ -1,4 +1,4 @@
-﻿define(['app/modules/server/userRequestManager'], function (requestManager) {
+﻿define(['app/modules/server/registerRequestManager', 'app/modules/EventEmitter', 'app/common/enums'], function (requestManager, EventEmitter, Enums) {
 
     var registrationFormTemplate =
         '<div>\
@@ -55,7 +55,7 @@
                     userDto.login = this.model.get('login');
                     userDto.password = hash;
 
-                    requestManager.new(function (responce) {
+                    requestManager.register(function (responce) {
                         
                     }.bind(this), function (error) {
 
@@ -65,6 +65,9 @@
                 validate: function () {
                     return true;
                 }
+            },
+            'a click[login]': function () {
+                EventEmitter.emit(Enums.event.navigate, 'registration');
             }
         });
     }
