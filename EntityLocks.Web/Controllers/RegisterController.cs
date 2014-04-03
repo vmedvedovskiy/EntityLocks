@@ -15,11 +15,13 @@
     {
         public override HttpResponseMessage Post([FromBody]UserModel model)
         {
-            if (!this.repository.IsExists(model.GetEntity()))
+            var entity = model.GetEntity();
+            if (!this.repository.IsExists(entity))
             {
+                this.repository.New(entity);
                 var responce = new HttpResponseMessage();
                 responce.StatusCode = HttpStatusCode.Created;
-                var cookie = AuthorizationHelper.CreateAuthenticationToken(model, this.Request.RequestUri.Host);
+                var cookie = AuthorizationHelper.CreateAuthenticationCookie(model, this.Request.RequestUri.Host);
                 responce.Headers.AddCookies(new CookieHeaderValue[] { cookie });
                 return responce;
             }

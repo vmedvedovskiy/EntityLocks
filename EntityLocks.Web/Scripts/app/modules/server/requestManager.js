@@ -39,6 +39,10 @@
             callback(responce);
         })
         .fail(function (error) {
+            if (error.status === 401) {
+                EventEmitter.emit(Enums.event.navigate, Enums.module.login);
+            }
+
             if (errback && errback !== null) {
                 errback(error);
             }

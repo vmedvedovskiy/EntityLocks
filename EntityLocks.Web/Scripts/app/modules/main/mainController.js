@@ -48,6 +48,7 @@
         },
 
         'click a[logout]': function () {
+            this.model.reset();
             LoginProvider.logout(function (responce) {
                 EventEmitter.emit(Enums.event.navigate, Enums.module.login);
             }.bind(this),

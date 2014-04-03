@@ -9,7 +9,6 @@ namespace EntityLocks.DAL
     public class EntityRepositoryFactory
     {
         private DomainManager domainManager;
-        private static EntityRepositoryFactory instance;
 
         public EntityRepositoryFactory(string connectionString)
         {

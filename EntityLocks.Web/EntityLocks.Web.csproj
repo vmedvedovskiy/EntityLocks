@@ -185,6 +185,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AuthorizationHelper.cs" />
+    <Compile Include="Helpers\SessionTokenManager.cs" />
     <Compile Include="Models\OptimisticEntityModel.cs" />
     <Compile Include="Models\PessimisticEntityModel.cs" />
     <Compile Include="Models\UserModel.cs" />
@@ -222,6 +223,9 @@
     <Content Include="Scripts\app\modules\entities\optimistic\templateEditView.js" />
     <Content Include="Scripts\app\modules\entities\optimistic\listView.js" />
     <Content Include="Scripts\app\modules\entities\optimistic\simpleEditView.js" />
+    <Content Include="Scripts\app\modules\entities\pessimistic\displayView.js" />
+    <Content Include="Scripts\app\modules\entities\pessimistic\listView.js" />
+    <Content Include="Scripts\app\modules\entities\pessimistic\editView.js" />
     <Content Include="Scripts\app\modules\EventEmitter.js" />
     <Content Include="Scripts\app\modules\home\homeView.js" />
     <Content Include="Scripts\app\modules\main\mainController.js" />

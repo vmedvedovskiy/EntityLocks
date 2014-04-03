@@ -11,9 +11,10 @@
                 <thead>\
                     <tr>\
                         <th></th>\
-                        <th>Version</th>\
-                        <th>Objects Count</th>\
-                        <th>Notes</th>\
+                        <th>Name</th>\
+                        <th>Create date</th>\
+                        <th>Additional Info</th>\
+                        <th>Locked by</th>\
                     </tr>\
                 </thead>\
                 <tbody>\
@@ -23,8 +24,8 @@
         recordView = 
         '<tr>\
             <td>\
-                <button class="btn btn-primary btn-xs" edit>Edit</button>\
-                <button class="btn btn-danger btn-xs" delete>Delete</button>\
+                <button class="btn btn-primary btn-xs" edit ></button>\
+                <button class="btn btn-danger btn-xs" delete >Delete</button>\
             </td>\
             <td data-bind="version" />\
             <td data-bind="objectsCount" />\
@@ -38,8 +39,19 @@
                     format: recordView
                 },
                 controller: {
+                    create: function() {
+                        if (row.userName === '' || row.userName === null) {
+                            this.view.$('button[delete]').remove();
+                            this.view.$('button[edit]').html('View');
+                        }
+                    },
+
                     'click button[edit]': function () {
-                        this.controller.showEditView();
+                        if (row.userName === '' || row.userName === null) {
+                            this.controller.showEditView();
+                        } else {
+                            this.controller.showDisplayView();
+                        }
                     },
 
                     'click button[delete]': function () {
@@ -66,7 +78,8 @@
         return function () {
             return $$({
                 model: {
-                    editView: new editView()
+                    editView: new editView(),
+                    displayView: new displayView()
                 },
                 view: {
                     format: listView,

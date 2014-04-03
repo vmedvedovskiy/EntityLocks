@@ -56,7 +56,7 @@
                     userDto.password = hash;
 
                     requestManager.register(function (responce) {
-                        
+                        EventEmitter.emit(Enums.event.navigate, Enums.module.home);
                     }.bind(this), function (error) {
 
                     }.bind(this), userDto);
@@ -67,7 +67,7 @@
                 }
             },
             'a click[login]': function () {
-                EventEmitter.emit(Enums.event.navigate, 'registration');
+                EventEmitter.emit(Enums.event.navigate, Enums.module.login);
             }
         });
     }

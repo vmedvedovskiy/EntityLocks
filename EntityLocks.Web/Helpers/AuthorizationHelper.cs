@@ -21,9 +21,10 @@
         }
 
 
-        internal static CookieHeaderValue CreateAuthenticationToken(UserModel model, string cookieDomain)
+        internal static CookieHeaderValue CreateAuthenticationCookie(UserModel model, string cookieDomain)
         {
             var sessionToken = AuthorizationHelper.CreateSessionToken(model);
+            SessionTokenManager.Instance.Tokens.Add(sessionToken, model);
             var cookie = new CookieHeaderValue(Strings.SessionTokenName, sessionToken);
             cookie.Expires = DateTimeOffset.Now.AddDays(1);
             cookie.Domain = cookieDomain;

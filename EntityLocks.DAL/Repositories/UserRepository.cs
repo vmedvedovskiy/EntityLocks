@@ -7,7 +7,7 @@
     using System.Security.Cryptography;
     using System.Text;
 
-    public class UserRepository: EntityRepository<User>
+    internal class UserRepository: EntityRepository<User>
     {
         public UserRepository(DomainManager manager)
             : base(manager)
@@ -16,12 +16,9 @@
 
         public override Guid New(User ent)
         {
-            ent.Id = Guid.NewGuid();
-            var hasher = SHA256.Create();
-            var sessionToken = hasher.ComputeHash(Encoding.Default.GetBytes(ent.Login + ent.Password));
-            
-            string sql = string.Format(@"INSERT INTO Users (Id, Login, Password, Hash) VALUES('{3}', '{0}', '{1}', '{2}')",
-                ent.Login, ent.Password, Encoding.Default.GetString(sessionToken), ent.Id.ToString());
+            ent.Id = Guid.NewGuid();            
+            string sql = string.Format(@"INSERT INTO Users (Id, Login, Password) VALUES('{2}', '{0}', '{1}')",
+                ent.Login, ent.Password, ent.Id.ToString());
             this.domainManager.ExecuteNonQuery(sql);
             return ent.Id;
         }
@@ -81,14 +78,8 @@
 
         public override bool IsExists(User entity)
         {
-            string sql = string.Format(@"SELECT COUNT(*) FROM Users WHERE Login = '{0}'", entity.Login);
+            string sql = string.Format(@"SELECT COUNT(*) FROM Users WHERE Login = '{0}' AND Password = '{1}'", entity.Login, entity.Password);
             return (Int64)this.domainManager.ExecuteScalarQuery(sql) > 0;
-        }
-
-        public string GetLoginByToken(string sessionToken)
-        {
-            string sql = string.Format(@"SELECT Login FROM Users WHERE Hash = '{0}'", sessionToken);
-            return (string)this.domainManager.ExecuteScalarQuery(sql);
         }
     }
 }

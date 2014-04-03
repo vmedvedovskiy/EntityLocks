@@ -15,7 +15,7 @@
                 format: homeHtml
             },
             controller: {
-                'click a[module]': function () {
+                'click a[module]': function (event) {
                     EventEmitter.emit(Enums.event.navigate, event.target.getAttribute('module'));
                 }
             }
