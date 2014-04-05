@@ -1,4 +1,4 @@
-﻿define([], function () {
+﻿define(['app/modules/entities/base/baseModalView'], function (baseModalView) {
 
         var displayViewTemplate =
     '<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">\
@@ -15,33 +15,31 @@
                             <label disabled class="form-control" data-bind="name">\
                         </div>\
                         <div class="form-group">\
-                            <label>Create date</label>\
-                            <label class="form-control" data-bind="createDate">\
-                        </div>\
-                        <div class="form-group">\
                             <label>AdditionalInfo</label>\
                             <label class="form-control" data-bind="additionalInfo" />\
                         </div>\
                         <div class="form-group">\
                             <label>Locked by</label>\
-                            <label class="form-control" data-bind="userName" />\
+                            <label class="form-control" data-bind="lockedBy" />\
                         </div>\
                     </div>\
+                </div>\
+                <div class="modal-footer">\
+                    <button type="button" class="btn btn-danger" close>Close</button>\
                 </div>\
             </div>\
         </div>\
     </div>';
 
     return function (entity) {
-        return $$({
+        return $$(baseModalView, {
             model: entity,
             view: {
-                format: editViewTemplate
+                format: displayViewTemplate
             },
-            controller: {
-                showModal: function (closeCallback) {
-                    this.view.$().modal();
-                    this._closeCallback = closeCallback;
+            contoller: {
+                'click button[close]': function () {
+                    this.contoller.close();
                 }
             }
         });

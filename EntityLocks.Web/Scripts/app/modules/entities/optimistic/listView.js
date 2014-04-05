@@ -78,13 +78,11 @@
                     },
 
                     'click button[new]': function () {
-                        this.model.get('editView').model.reset();
-                        this.model.get('editView').controller.showModal(function (id) {
-                            requestManager.load(function (responce) {
-                                this.append(this.controller.createRow(responce), 'tbody');
-                            }.bind(this), null, id);
-
-                            this.model.get('editView').model.reset();
+                        var editView = this.model.get('editView');
+                        editView.model.reset();
+                        editView.controller.showModal(function () {
+                            this.append(this.controller.createRow(editView.model.get()), rowContainer);
+                            editView.model.reset();
                         }.bind(this));
                     },
 

@@ -1,5 +1,8 @@
-﻿define(['app/modules/server/optimisticRequestManager', 'app/modules/entities/optimistic/templateEditView'],
-    function (requestManager, editView) {
+﻿define(['app/modules/server/pessimisticRequestManager',
+    'app/modules/entities/pessimistic/editView',
+    'app/modules/entities/pessimistic/displayView',
+    'app/common/enums'],
+    function (requestManager, editView, displayView, Enums) {
 
         var listView =
         '<div>\
@@ -12,7 +15,6 @@
                     <tr>\
                         <th></th>\
                         <th>Name</th>\
-                        <th>Create date</th>\
                         <th>Additional Info</th>\
                         <th>Locked by</th>\
                     </tr>\
@@ -21,16 +23,17 @@
                 </tbody>\
             </table>\
         </div>',
-        recordView = 
+        recordView =
         '<tr>\
             <td>\
-                <button class="btn btn-primary btn-xs" edit ></button>\
+                <button class="btn btn-primary btn-xs" edit >Edit</button>\
                 <button class="btn btn-danger btn-xs" delete >Delete</button>\
             </td>\
-            <td data-bind="version" />\
-            <td data-bind="objectsCount" />\
-            <td data-bind="notes" />\
-        </tr>';
+            <td data-bind="name" />\
+            <td data-bind="additionalInfo" />\
+            <td data-bind="lockedBy" />\
+        </tr>',
+        rowContainer = 'tbody';
 
         var rowObject = function (row) {
             return $$({
@@ -40,18 +43,26 @@
                 },
                 controller: {
                     create: function() {
-                        if (row.userName === '' || row.userName === null) {
+                        if (this.controller.isLocked()) {
                             this.view.$('button[delete]').remove();
                             this.view.$('button[edit]').html('View');
                         }
                     },
 
                     'click button[edit]': function () {
-                        if (row.userName === '' || row.userName === null) {
+                        if (!this.controller.isLocked()) {
                             this.controller.showEditView();
                         } else {
                             this.controller.showDisplayView();
                         }
+                    },
+
+                    isLocked: function() {
+                        var result = row.hasOwnProperty('lockedBy')
+                            && row.lockedBy !== ''
+                            && row.lockedBy !== null
+                            && row.lockedBy !== "";
+                        return result;
                     },
 
                     'click button[delete]': function () {
@@ -61,11 +72,13 @@
                     },
 
                     showEditView: function () {
-                        this._parent.controller.updateEditViewModel(this.model.get());
-                        this._parent.controller.showEditView(function () {
-                            this.controller.refresh();
-                        }.bind(this));
+                        this.trigger(Enums.event.edit, this.model.get());
                     },
+
+                    showDisplayView: function () {
+                        this.trigger(Enums.event.display, this.model.get());
+                    },
+
                     refresh: function () {
                         requestManager.load(function (responce) {
                             this.model.set(responce);
@@ -91,13 +104,13 @@
                     },
 
                     'click button[new]': function () {
-                        this.model.get('editView').model.reset();
-                        this.model.get('editView').controller.showModal(function (id) {
-                            requestManager.load(function (responce) {
-                                this.append(this.controller.createRow(responce), 'tbody');
-                            }.bind(this), null, id);
+                        var editView = this.model.get('editView');
+                        editView.model.reset();
+                        editView.controller.showModal();
 
-                            this.model.get('editView').model.reset();
+                        editView.bind(Enums.event.closed, function (event) {
+                            this.append(this.controller.createRow(editView.model.get()), rowContainer);
+                            editView.model.reset();
                         }.bind(this));
                     },
 
@@ -108,31 +121,47 @@
                     createGrid: function () {
                         requestManager.loadAll(function (responce) {
                             for (var i in responce) {
-                                this.append(this.controller.createRow(responce[i]), 'tbody');
+                                this.append(this.controller.createRow(responce[i]), rowContainer);
                             }
                         }.bind(this));
                     },
 
                     createRow: function (row) {
-                        return new rowObject(row);
+                        var obj = new rowObject(row);
+                        obj.bind(Enums.event.display, function (event, model) {
+                            this.controller.showDisplayView(model);
+                        }.bind(this));
+
+                        obj.bind(Enums.event.edit, function (event, model) {
+                            this.controller.showEditView(model);
+                        }.bind(this));
+                        return obj;
                     },
 
                     refresh: function () {
                         requestManager.loadAll(function (responce) {
                             var idx = 0;
                             this.each(function () {
-                                this.model.set(responce[idx]);
+                                if (responce[idx]) {
+                                    this.model.set(responce[idx]);
+                                } else {
+                                    this.destroy();
+                                }
+
                                 idx++;
                             });
 
                         }.bind(this));
                     },
 
-                    showEditView: function (callbck) {
-                        this.model.get('editView').controller.showModal(callbck);
-                    },
-                    updateEditViewModel: function (model) {
+                    showEditView: function (model) {
                         this.model.get('editView').model.set(model);
+                        this.model.get('editView').controller.showModal();
+                    },
+
+                    showDisplayView: function (model) {
+                        this.model.get('displayView').model.set(model);
+                        this.model.get('displayView').controller.showModal();
                     }
                 }
             });

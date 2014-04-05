@@ -24,7 +24,7 @@
 
         public override IList<OptimisticEntity> Load()
         {
-            IList<OptimisticEntity> result = new List<OptimisticEntity>();
+            var result = new List<OptimisticEntity>();
             using (IDataReader reader = this.domainManager.ExecuteQuery("SELECT * from OptimisticEntity"))
             {
                 OptimisticEntity ent;
@@ -37,14 +37,6 @@
             }
 
             return result;
-        }
-
-        private void FillEntityFields(IDataReader reader, OptimisticEntity ent)
-        {
-            ent.Id = new Guid(reader.GetString(0));
-            ent.ObjectsCount = reader.GetInt32(1);
-            ent.Notes = reader.GetString(2);
-            ent.Version = reader.GetInt32(3);
         }
 
         // TODO try/catch
@@ -81,5 +73,14 @@
         {
             return false;
         }
+
+        private void FillEntityFields(IDataReader reader, OptimisticEntity ent)
+        {
+            ent.Id = reader.GetGuid(0);
+            ent.ObjectsCount = reader.GetInt32(1);
+            ent.Notes = reader.GetString(2);
+            ent.Version = reader.GetInt32(3);
+        }
+
     }
 }

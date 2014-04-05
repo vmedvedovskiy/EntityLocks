@@ -7,7 +7,10 @@
             DELETE: 'DELETE'
         },
         event: {
-            navigate: 'navigate'
+            navigate: 'navigate',
+            closed: 'closed',
+            display: 'display',
+            edit: 'edit'
         },
         module: {
             home: 'home',

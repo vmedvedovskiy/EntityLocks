@@ -32,7 +32,7 @@
             return cookie;
         }
 
-        internal static string GetAuthenticationToken(HttpRequestMessage request)
+        internal static string GetSessionToken(HttpRequestMessage request)
         {
             var sessionTokenCookies = request.Headers.GetCookies(Strings.SessionTokenName).FirstOrDefault();
             string sessionToken = string.Empty;

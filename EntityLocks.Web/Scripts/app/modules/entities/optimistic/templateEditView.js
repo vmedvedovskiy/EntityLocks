@@ -1,4 +1,6 @@
-﻿define(['app/modules/server/optimisticRequestManager', 'app/modules/entities/optimistic/conflictEditView', 'app/modules/entities/optimistic/simpleEditView'],
+﻿define(['app/modules/server/optimisticRequestManager',
+    'app/modules/entities/optimistic/conflictEditView',
+    'app/modules/entities/optimistic/simpleEditView'],
     function (requestManager, resolveConflictControl, simpleViewControl) {
 
         var editViewTemplate =
@@ -18,6 +20,8 @@
             </div>\
         </div>';
 
+        var containerSelector = 'div.modal-body';
+
         return function (entity) {
             return $$({
                 model: entity,
@@ -30,7 +34,7 @@
                         if (id === undefined || id === null || id === '') {
                             this.controller.new();
                         } else {
-                            this.controller.update(id);
+                            this.controller.update();
                         }
                     },
 
@@ -43,27 +47,29 @@
                         this.view.$().modal();
                         this._closeCallback = closeCallback;
                     },
+
+                    hideModal: function(responce) {
+                        this.view.$().modal('hide');
+                        this._closeCallback(responce);
+                    },
               
                     new: function () {
                         requestManager.new(function (responce) {
-                            this.view.$().modal('hide');
-                            this._closeCallback(responce);
+                            this.controller.hideModal(responce);
                         }.bind(this), null, this.model.get());
                     },
 
-                    update: function (id) {
+                    update: function () {
                         requestManager.save(function (responce) {
-                                this.controller.resetView();
                                 this.controller.createSimpleView();
-                                this.view.$().modal('hide');
-                                this._closeCallback(responce);
+                                this.controller.hideModal(responce);
                             }.bind(this), 
                             function (error) {
                                 if (error.status === 409) {
-                                    this.view.$('div.modal-body').empty();
+                                    this.view.$(containerSelector).empty();
                                     this.controller.createResolveConflictControl(error.responseJSON.message);
                                 }
-                            }.bind(this), id, this.model.get());
+                            }.bind(this), this.model.get('id'), this.model.get());
                     },
 
                     createResolveConflictControl: function (title) {
@@ -74,11 +80,10 @@
 
                         this.resolveConflictControl.bind('loaded', function () {
                             this.model.set({ version: this.resolveConflictControl.model.get('version') });
+                            this.controller.resetView();
+                            this.append(this.resolveConflictControl, containerSelector);
+                            this.controller.fullUpdate();
                         }.bind(this));
-
-                        this.controller.resetView();
-                        this.append(this.resolveConflictControl, 'div.modal-body');
-                        this.controller.fullUpdate();
                     },
 
                     createSimpleView: function () {
@@ -87,7 +92,7 @@
                         }
 
                         this.controller.resetView();
-                        this.append(this.simpleEditView, 'div.modal-body');
+                        this.append(this.simpleEditView, containerSelector);
                         this.controller.fullUpdate();
                     },
 

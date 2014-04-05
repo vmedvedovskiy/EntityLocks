@@ -5,6 +5,12 @@
 
     public class UserModel : BaseEntityModel<User>
     {
+        public UserModel():
+            base()
+        {
+
+        }
+
         public UserModel(User entity):
             base(entity)
         { }

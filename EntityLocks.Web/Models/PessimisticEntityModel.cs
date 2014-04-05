@@ -2,6 +2,7 @@
 {
     using EntityLocks.Domain;
     using EntityLocks.Web.Base;
+    using Newtonsoft.Json;
     using System;
 
     public class PessimisticEntityModel : BaseEntityModel<PessimisticEntity>
@@ -12,10 +13,22 @@
 
         public string Name { get; set; }
 
-        public DateTime CreateDate { get; set; }
-
         public string AdditionalInfo { get; set; }
 
+        public string LockedBy 
+        {
+            get
+            {
+                if (this.Holder != null)
+                {
+                    return this.Holder.Login;
+                }
+
+                return string.Empty;
+            }
+        }
+
+        [JsonIgnore]
         public UserModel Holder { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace EntityLocks.Web.Controllers
 {
     using EntityLocks.Common;
+    using EntityLocks.DAL.Repositories;
     using EntityLocks.Domain;
     using EntityLocks.Web.Base;
     using EntityLocks.Web.Helpers;
@@ -18,9 +19,12 @@
         {
             if (this.repository.IsExists(model.GetEntity()))
             {
+                // Update user model with real DB id
+                var newModel = new UserModel((this.repository as UserRepository).Load(model.Login));
+
                 var responce = new HttpResponseMessage();
                 responce.StatusCode = HttpStatusCode.OK;
-                var cookie = AuthorizationHelper.CreateAuthenticationCookie(model, this.Request.RequestUri.Host);
+                var cookie = AuthorizationHelper.CreateAuthenticationCookie(newModel, this.Request.RequestUri.Host);
                 responce.Headers.AddCookies(new CookieHeaderValue[] { cookie });
                 return responce;
             }
@@ -33,7 +37,7 @@
         [HttpGet]
         public HttpResponseMessage GetUserInfo()
         {
-            var token = AuthorizationHelper.GetAuthenticationToken(this.Request); 
+            var token = AuthorizationHelper.GetSessionToken(this.Request); 
             if (string.IsNullOrEmpty(token))
             {
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);

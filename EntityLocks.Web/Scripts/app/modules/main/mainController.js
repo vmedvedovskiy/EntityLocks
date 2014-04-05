@@ -2,11 +2,13 @@
     'app/modules/EventEmitter',
     'app/common/enums',
     'app/modules/entities/optimistic/listView',
+    'app/modules/entities/pessimistic/listView',
     'app/modules/registration/registrationView',
     'app/modules/registration/loginView',
     'app/modules/home/homeView',
     'app/modules/server/loginRequestManager'],
-    function (Routes, EventEmitter, Enums, OptimisticList, RegistrationView, LoginView, HomeView, LoginProvider) {
+    function (Routes, EventEmitter, Enums, OptimisticList, PessimisticList,
+        RegistrationView, LoginView, HomeView, LoginProvider) {
     var ctrlr = {
         'create': function () {
             this.controller.initRoutes();
@@ -25,6 +27,7 @@
         },
         initRoutes: function() {
             this.controller.addRoute(Enums.module.optimisticList, OptimisticList);
+            this.controller.addRoute(Enums.module.pessimisticList, PessimisticList);
             this.controller.addRoute(Enums.module.registration, RegistrationView);
             this.controller.addRoute(Enums.module.login, LoginView);
             this.controller.addRoute(Enums.module.home, HomeView);

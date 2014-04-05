@@ -1,4 +1,5 @@
-﻿define(['app/modules/server/optimisticRequestManager', 'app/modules/entities/optimistic/displayView'],
+﻿define(['app/modules/server/optimisticRequestManager',
+    'app/modules/entities/optimistic/displayView'],
     function (requestManager, displayEntityControl) {
 
         var editView =
@@ -37,7 +38,7 @@
                 },
                 controller: {
                     create: function () {
-                        var left, right
+                        // update existing entity (those, which user tried to save and got conflict)
                         requestManager.load(function(responce) {
                             this.controller.initialize(responce);
                         }.bind(this), null, existingModel.id)

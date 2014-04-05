@@ -19,7 +19,7 @@
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {
-            if (string.IsNullOrEmpty(AuthorizationHelper.GetAuthenticationToken(actionContext.Request)))
+            if (string.IsNullOrEmpty(AuthorizationHelper.GetSessionToken(actionContext.Request)))
             {
                 actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
                 actionContext.Response.Headers.Add("Location", "login");

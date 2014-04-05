@@ -1,6 +1,6 @@
 ﻿define(['app/modules/server/pessimisticRequestManager',
-    'app/modules/entities/pessimistic/editView'],
-    function (requestManager, simpleViewControl) {
+    'app/modules/entities/base/baseModalView'],
+    function (requestManager, baseModalView) {
 
         var editViewTemplate =
     '<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">\
@@ -20,55 +20,50 @@
                             <label>Additional Info</label>\
                             <input type="text" class="form-control" data-bind="additionalInfo">\
                         </div>\
-                        <div class="form-group">\
-                            <label >Notes</label>\
-                            <textarea class="form-control" data-bind="notes" />\
-                        </div>\
                     </form>\
                 </div>\
                     <div class="modal-footer">\
                         <button type="button" class="btn btn-primary" save>Save</button>\
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>\
+                        <button type="button" class="btn btn-danger" close>Cancel</button>\
                     </div>\
                 </div>\
             </div>\
         </div>';
 
         return function (entity) {
-            return $$({
+            return $$(baseModalView, {
                 model: entity,
                 view: {
                     format: editViewTemplate
                 },
                 controller: {
                     'click button[save]': function () {
+                        this.controller.save();
+                    },
+
+                    'click button[close]': function () {
+                        this.controller.close();
+                    },
+
+                    save: function () {
                         var id = this.model.get('id');
-                        if (id === undefined || id === null || id === '') {
-                            this.controller.new();
+                        if (id === undefined || id === null) {
+                            requestManager.new(function (responce) {
+                                this.model.set({ id: responce });
+                                this.controller.close();
+                            }.bind(this), null, this.model.get())
                         } else {
-                            this.controller.update(id);
+                            requestManager.save(function (responce) {
+                                this.controller.close();
+                            }.bind(this), null, id, this.model.get())
                         }
                     },
 
-                    showModal: function (closeCallback) {
-                        this.view.$().modal();
-                        this._closeCallback = closeCallback;
-                    },
-              
-                    new: function () {
-                        requestManager.new(function (responce) {
-                            this.view.$().modal('hide');
-                            this._closeCallback(responce);
-                        }.bind(this), null, this.model.get());
-                    },
-
-                    update: function (id) {
-                        requestManager.save(function (responce) {
-                                this.controller.resetView();
-                                this.view.$().modal('hide');
-                                this._closeCallback(responce);
-                            }.bind(this), 
-                            null, id, this.model.get());
+                    showModal: function () {
+                        requestManager.load(function (responce) {
+                            this.model.set(responce);
+                            this.view.$().modal();
+                        }.bind(this), null, this.model.get('id'));
                     }
                 }
             });

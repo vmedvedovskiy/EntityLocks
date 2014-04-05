@@ -1,5 +1,6 @@
 ﻿namespace EntityLocks.DAL.Repositories
 {
+    using EntityLocks.Common;
     using EntityLocks.Domain;
     using System;
     using System.Collections.Generic;
@@ -7,7 +8,7 @@
     using System.Security.Cryptography;
     using System.Text;
 
-    internal class UserRepository: EntityRepository<User>
+    public class UserRepository : EntityRepository<User>
     {
         public UserRepository(DomainManager manager)
             : base(manager)
@@ -40,19 +41,32 @@
             return result;
         }
 
-        private void FillEntityFields(IDataReader reader, User ent)
-        {
-            ent.Id = new Guid(reader.GetString(0));
-            ent.Login = reader.GetString(1);
-            ent.Password = reader.GetString(2);
-        }
-
         // TODO try/catch
         public override User Load(Guid entityId)
         {
             User result = new User();
             using (IDataReader reader = this.domainManager.ExecuteQuery(
                 string.Format("SELECT * from Users WHERE Id='{0}'", entityId)))
+            {
+                while (reader.Read())
+                {
+                    this.FillEntityFields(reader, result);
+                }
+            }
+
+            return result;
+        }
+
+        public User Load(string login)
+        {
+            if (string.IsNullOrEmpty(login))
+            {
+                throw new ArgumentException(Strings.MissingIdMessage);
+            }
+
+            User result = new User();
+            using (IDataReader reader = this.domainManager.ExecuteQuery(
+                string.Format("SELECT * from Users WHERE Login='{0}'", login)))
             {
                 while (reader.Read())
                 {
@@ -80,6 +94,14 @@
         {
             string sql = string.Format(@"SELECT COUNT(*) FROM Users WHERE Login = '{0}' AND Password = '{1}'", entity.Login, entity.Password);
             return (Int64)this.domainManager.ExecuteScalarQuery(sql) > 0;
+        }
+
+
+        private void FillEntityFields(IDataReader reader, User ent)
+        {
+            ent.Id = reader.GetGuid(0);
+            ent.Login = reader.GetString(1);
+            ent.Password = reader.GetString(2);
         }
     }
 }

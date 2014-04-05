@@ -1,0 +1,21 @@
+﻿CREATE TABLE [OptimisticEntity] 
+("Id" VARCHAR PRIMARY KEY  NOT NULL  DEFAULT (null) ,
+"ObjectsCount" INTEGER,
+"Notes" TEXT,
+"Version" INTEGER);
+
+GO
+
+CREATE TABLE [Users] (
+[Id] VARCHAR(64)  UNIQUE NOT NULL PRIMARY KEY,
+[Login] VARCHAR(16)  NULL,
+[Password] VARCHAR(1024)  NULL)
+
+GO
+
+CREATE TABLE [PessimisticEntity]
+("Id" VARCHAR PRIMARY KEY  NOT NULL ,
+"Name" VARCHAR,
+"AdditionalInfo" VARCHAR,
+"UserId" VARCHAR DEFAULT (null),
+FOREIGN KEY (UserId) REFERENCES Users(Id))
