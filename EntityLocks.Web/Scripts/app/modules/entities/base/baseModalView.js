@@ -4,8 +4,14 @@
         model: {},
         view: {},
         controller: {
-            showModal: function () {
+            showModal: function (model) {
+                this.model.set(model);
                 this.view.$().modal();
+            },
+
+            cancel: function () {
+                this.view.$().modal('hide');
+                this.trigger(Enums.event.cancelled);
             },
 
             close: function () {

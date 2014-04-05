@@ -20,6 +20,13 @@
             );
 
             config.Routes.MapHttpRoute(
+                name: "PessimisticEntityApi",
+                routeTemplate: "api/pessimisticEntity/lock/{id}",
+                defaults: new { action = "lock", 
+                    controller = "pessimisticEntity", id = RouteParameter.Optional }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }

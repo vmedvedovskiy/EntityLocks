@@ -1,4 +1,5 @@
-﻿define(['app/modules/server/requestManager', 'app/common/Enums'], function (BaseRequestManager, Enums) {
+﻿define(['app/modules/server/requestManager', 'app/common/Enums'],
+    function (BaseRequestManager, Enums) {
     var instance = new BaseRequestManager('login');
 
     instance.login = function (callback, errback, entity) {

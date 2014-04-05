@@ -3,7 +3,7 @@
     var events = {};
 
     // Class for handling global events
-    // We cannot use jQuery as we operationg on our own objects
+    // We cannot use jQuery as we operating on our own objects
     function EventEmitter() {
 
     }

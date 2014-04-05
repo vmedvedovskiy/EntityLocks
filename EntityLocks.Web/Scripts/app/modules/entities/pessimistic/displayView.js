@@ -15,12 +15,12 @@
                             <label disabled class="form-control" data-bind="name">\
                         </div>\
                         <div class="form-group">\
-                            <label>AdditionalInfo</label>\
-                            <label class="form-control" data-bind="additionalInfo" />\
+                            <label>Additional Info</label>\
+                            <label disabled class="form-control" data-bind="additionalInfo" />\
                         </div>\
                         <div class="form-group">\
                             <label>Locked by</label>\
-                            <label class="form-control" data-bind="lockedBy" />\
+                            <label disabled class="form-control" data-bind="lockedBy" />\
                         </div>\
                     </div>\
                 </div>\
@@ -31,15 +31,19 @@
         </div>\
     </div>';
 
-    return function (entity) {
+    return function () {
         return $$(baseModalView, {
-            model: entity,
+            model: {
+                name: '',
+                additionalInfo: '',
+                lockedBy: ''
+            },
             view: {
                 format: displayViewTemplate
             },
-            contoller: {
+            controller: {
                 'click button[close]': function () {
-                    this.contoller.close();
+                    this.controller.cancel();
                 }
             }
         });

@@ -10,7 +10,13 @@
             navigate: 'navigate',
             closed: 'closed',
             display: 'display',
-            edit: 'edit'
+            edit: 'edit',
+            cancelled: 'cancelled',
+            selected: 'selected',
+            loaded: 'loaded',
+            delete: 'delete',
+            conflict: 'conflict',
+            locked: 'locked'
         },
         module: {
             home: 'home',

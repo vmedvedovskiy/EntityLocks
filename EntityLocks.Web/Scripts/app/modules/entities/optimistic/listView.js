@@ -1,5 +1,11 @@
-﻿define(['app/modules/server/optimisticRequestManager', 'app/modules/entities/optimistic/templateEditView'],
-    function (requestManager, editView) {
+﻿define(['app/modules/server/optimisticRequestManager',
+    'app/modules/entities/optimistic/editView',
+    'app/modules/entities/optimistic/conflictView',
+    'app/modules/entities/optimistic/recordView',
+    'app/modules/entities/base/baseListView',
+    'app/common/enums'],
+    function (requestManager, editView, conflictView,
+        recordView, baseListView, Enums) {
 
         var listView =
         '<div>\
@@ -19,105 +25,37 @@
                 <tbody>\
                 </tbody>\
             </table>\
-        </div>',
-        recordView = 
-        '<tr>\
-            <td>\
-                <button class="btn btn-primary btn-xs" edit>Edit</button>\
-                <button class="btn btn-danger btn-xs" delete>Delete</button>\
-            </td>\
-            <td data-bind="version" />\
-            <td data-bind="objectsCount" />\
-            <td data-bind="notes" />\
-        </tr>';
-
-        var rowObject = function (row) {
-            return $$({
-                model: row,
-                view: {
-                    format: recordView
-                },
-                controller: {
-                    'click button[edit]': function () {
-                        this.controller.showEditView();
-                    },
-
-                    'click button[delete]': function () {
-                        requestManager.delete(function (responce) {
-                            this.destroy();
-                        }.bind(this), null, this.model.get('id'));
-                    },
-
-                    showEditView: function () {
-                        this._parent.controller.updateEditViewModel(this.model.get());
-                        this._parent.controller.showEditView(function () {
-                            this.controller.refresh();
-                        }.bind(this));
-                    },
-                    refresh: function () {
-                        requestManager.load(function (responce) {
-                            this.model.set(responce);
-                        }.bind(this), null, this.model.get('id'));
-                    }
-                }
-            })
-        };
+        </div>';
 
         return function () {
-            return $$({
+            return $$(new baseListView(requestManager, editView, recordView, listView), {
                 model: {
-                    editView: new editView()
-                },
-                view: {
-                    format: listView,
-                    style: '& > thead > tr > th:nth-child(1) { width: 40px; }'
+                    conflictView: new conflictView(requestManager)
                 },
                 controller: {
-                    'create': function () {
-                        this.controller.createGrid();
-                    },
+                    createInternal: function() {
+                        var editView = this.model.get('editView'),
+                            conflictView = this.model.get('conflictView');
+                        
+                        editView.bind(Enums.event.conflict, function () {
+                            this.controller.handleConflict(editView.model.get());
+                        }.bind(this));
 
-                    'click button[new]': function () {
-                        var editView = this.model.get('editView');
-                        editView.model.reset();
-                        editView.controller.showModal(function () {
-                            this.append(this.controller.createRow(editView.model.get()), rowContainer);
-                            editView.model.reset();
+                        conflictView.bind(Enums.event.conflict, function () {
+                            this.controller.handleConflict(conflictView.model.get());
+                        }.bind(this));
+
+                        conflictView.bind(Enums.event.closed, function () {
+                            this.controller.afterEdit(conflictView.model.get());
                         }.bind(this));
                     },
 
-                   'click button[refresh]': function () {
-                       this.controller.refresh();
+                    handleConflict: function(entity) {
+                        this.controller.showConflictView(entity);
                     },
 
-                    createGrid: function () {
-                        requestManager.loadAll(function (responce) {
-                            for (var i in responce) {
-                                this.append(this.controller.createRow(responce[i]), 'tbody');
-                            }
-                        }.bind(this));
-                    },
-
-                    createRow: function (row) {
-                        return new rowObject(row);
-                    },
-
-                    refresh: function () {
-                        requestManager.loadAll(function (responce) {
-                            var idx = 0;
-                            this.each(function () {
-                                this.model.set(responce[idx]);
-                                idx++;
-                            });
-
-                        }.bind(this));
-                    },
-
-                    showEditView: function (callbck) {
-                        this.model.get('editView').controller.showModal(callbck);
-                    },
-                    updateEditViewModel: function (model) {
-                        this.model.get('editView').model.set(model);
+                    showConflictView: function (model) {
+                        this.controller.showModalControl('conflictView', model);
                     }
                 }
             });

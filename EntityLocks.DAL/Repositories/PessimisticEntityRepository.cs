@@ -70,7 +70,7 @@
         public override Guid New(PessimisticEntity ent)
         {
             ent.Id = Guid.NewGuid();
-            string sql = string.Format(@"INSERT INTO PessimisticEntity (Id, Name, AdditionalInfo) VALUES('{2}', {0}, '{1}')",
+            string sql = string.Format(@"INSERT INTO PessimisticEntity (Id, Name, AdditionalInfo) VALUES('{2}', '{0}', '{1}')",
                 ent.Name, ent.AdditionalInfo, ent.Id.ToString());
             this.domainManager.ExecuteNonQuery(sql);
             return ent.Id;

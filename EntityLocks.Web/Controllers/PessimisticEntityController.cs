@@ -14,7 +14,14 @@
     [CookieAuthorizationAttribute(Strings.SessionTokenName)]
     public class PessimisticEntityController : BaseEntityController<PessimisticEntity, PessimisticEntityModel>
     {
-        public override PessimisticEntityModel Get(Guid id)
+        public override HttpResponseMessage Put(string id, PessimisticEntityModel value)
+        {
+            // reset lock
+            value.Holder = null;
+            return base.Put(id, value);
+        }
+
+        public PessimisticEntityModel Lock(Guid id)
         {
             var loaded = base.Get(id);
             // save lock for entity in database
@@ -23,13 +30,6 @@
             loaded.Holder = user;
             this.repository.Save(loaded.GetEntity());
             return loaded;
-        }
-
-        public override HttpResponseMessage Put(string id, PessimisticEntityModel value)
-        {
-            // reset lock
-            value.Holder = null;
-            return base.Put(id, value);
         }
     }
 }
