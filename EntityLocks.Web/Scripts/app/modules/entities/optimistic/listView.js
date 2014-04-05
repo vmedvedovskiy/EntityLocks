@@ -70,7 +70,7 @@
                 },
                 view: {
                     format: listView,
-                    style: '& > thead > tr > th:nth-child(1) { width: 20px; }'
+                    style: '& > thead > tr > th:nth-child(1) { width: 40px; }'
                 },
                 controller: {
                     'create': function () {

@@ -43,21 +43,33 @@
                 },
                 controller: {
                     create: function() {
-                        if (this.controller.isLocked()) {
-                            this.view.$('button[delete]').remove();
+                        this.controller.updateRowControls();
+                    },
+
+                    update: function(data) {
+                        this.model.set(data);
+                        this.controller.updateRowControls();
+                    },
+
+                    updateRowControls: function() {
+                        if (this.controller.isLocked(this.model.get())) {
+                            this.view.$('button[delete]').hide();
                             this.view.$('button[edit]').html('View');
+                        } else {
+                            this.view.$('button[delete]').show();
+                            this.view.$('button[edit]').html('Edit');
                         }
                     },
 
                     'click button[edit]': function () {
-                        if (!this.controller.isLocked()) {
+                        if (!this.controller.isLocked(this.model.get())) {
                             this.controller.showEditView();
                         } else {
                             this.controller.showDisplayView();
                         }
                     },
 
-                    isLocked: function() {
+                    isLocked: function(row) {
                         var result = row.hasOwnProperty('lockedBy')
                             && row.lockedBy !== ''
                             && row.lockedBy !== null
@@ -77,12 +89,6 @@
 
                     showDisplayView: function () {
                         this.trigger(Enums.event.display, this.model.get());
-                    },
-
-                    refresh: function () {
-                        requestManager.load(function (responce) {
-                            this.model.set(responce);
-                        }.bind(this), null, this.model.get('id'));
                     }
                 }
             })
@@ -91,6 +97,7 @@
         return function () {
             return $$({
                 model: {
+                    newView: new editView(),
                     editView: new editView(),
                     displayView: new displayView()
                 },
@@ -101,17 +108,25 @@
                 controller: {
                     'create': function () {
                         this.controller.createGrid();
+                        var newView = this.model.get('newView'),
+                            editView = this.model.get('editView');
+
+                        newView.bind(Enums.event.closed, function (event) {
+                            this.append(this.controller.createRow(newView.model.get()), rowContainer);
+                        }.bind(this));
+
+                        editView.bind(Enums.event.closed, function (event) {
+                            this.each(function () {
+                                if (this.model.get('id') === editView.model.get('id')) {
+                                    this.model.set(editView.model.get());
+                                    return false;
+                                }
+                            });
+                        }.bind(this));
                     },
 
                     'click button[new]': function () {
-                        var editView = this.model.get('editView');
-                        editView.model.reset();
-                        editView.controller.showModal();
-
-                        editView.bind(Enums.event.closed, function (event) {
-                            this.append(this.controller.createRow(editView.model.get()), rowContainer);
-                            editView.model.reset();
-                        }.bind(this));
+                        this.controller.showNewView();
                     },
 
                    'click button[refresh]': function () {
@@ -128,12 +143,12 @@
 
                     createRow: function (row) {
                         var obj = new rowObject(row);
-                        obj.bind(Enums.event.display, function (event, model) {
-                            this.controller.showDisplayView(model);
+                        obj.bind(Enums.event.display, function (event) {
+                            this.controller.showDisplayView(obj.model.get());
                         }.bind(this));
 
-                        obj.bind(Enums.event.edit, function (event, model) {
-                            this.controller.showEditView(model);
+                        obj.bind(Enums.event.edit, function (event) {
+                            this.controller.showEditView(obj.model.get());
                         }.bind(this));
                         return obj;
                     },
@@ -143,7 +158,7 @@
                             var idx = 0;
                             this.each(function () {
                                 if (responce[idx]) {
-                                    this.model.set(responce[idx]);
+                                    this.controller.update(responce[idx]);
                                 } else {
                                     this.destroy();
                                 }
@@ -155,11 +170,19 @@
                     },
 
                     showEditView: function (model) {
+                        this.model.get('editView').model.reset();
                         this.model.get('editView').model.set(model);
                         this.model.get('editView').controller.showModal();
                     },
 
+                    showNewView: function () {
+                        this.model.get('newView').model.reset();
+                        this.model.get('newView').model.set({});
+                        this.model.get('newView').controller.showModal();
+                    },
+
                     showDisplayView: function (model) {
+                        this.model.get('displayView').model.reset();
                         this.model.get('displayView').model.set(model);
                         this.model.get('displayView').controller.showModal();
                     }
