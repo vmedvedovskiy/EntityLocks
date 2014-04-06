@@ -21,9 +21,10 @@
             return base.Put(id, value);
         }
 
-        public PessimisticEntityModel Lock(Guid id)
+        [HttpGet, ActionName("lock")]
+        public PessimisticEntityModel GetLock(Guid id)
         {
-            var loaded = base.Get(id);
+            var loaded = this.Get(id);
             // save lock for entity in database
             var token = AuthorizationHelper.GetSessionToken(this.Request);
             var user = SessionTokenManager.Instance.Tokens[token];
