@@ -14,6 +14,8 @@
 
         public const string NoUserInDatabase = "User with specified login is absent.";
 
+        public const string LockedEntity = "This entity is locked somewhere else by {0}.";
+
 	    #endregion    
         
         public const string SessionTokenName = "session";

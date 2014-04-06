@@ -41,6 +41,14 @@
 
                         editView.bind(Enums.event.locked, function () {
                             this.controller.showDisplayView(editView.model.get());
+                            this.controller.afterEdit(editView.model.get());
+                        }.bind(this));
+
+                        editView.bind(Enums.event.cancelled, function () {
+                            editView.model.set({ lockedBy: '' });
+                            requestManager.unlock(function (responce) {
+                                this.controller.afterEdit(editView.model.get());
+                            }.bind(this), null, editView.model.get('id'), editView.model.get());
                         }.bind(this));
                     },
 
@@ -53,6 +61,15 @@
                     showDisplayView: function (model) {
                         this.model.get('displayView').model.set(model);
                         this.controller.showModalControl('displayView', model);
+                    },
+
+                    afterEdit: function (model) {
+                        this.each(function () {
+                            if (this.model.get('id') === model.id) {
+                                this.controller.update(model);
+                                return false;
+                            }
+                        });
                     }
                 }
             });

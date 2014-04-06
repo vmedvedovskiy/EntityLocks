@@ -24,21 +24,19 @@
         }
 
         // GET api/<controller>
-        [HttpGet, ActionName("Default")]
         public virtual IEnumerable<TModel> Get()
         {
             return this.repository.Load().Select(x => Activator.CreateInstance(typeof(TModel), x) as TModel);
         }
 
         // GET api/<controller>/5
-        [HttpGet, ActionName("Default")]
-        public virtual TModel Get(Guid id)
+        public virtual HttpResponseMessage Get(Guid id)
         {
-            return Activator.CreateInstance(typeof(TModel), this.repository.Load(id)) as TModel;
+            var model = Activator.CreateInstance(typeof(TModel), this.repository.Load(id)) as TModel;
+            return this.Request.CreateResponse<TModel>(HttpStatusCode.OK, model);
         }
 
         // POST api/<controller>
-        [HttpPost, ActionName("Default")]
         public virtual HttpResponseMessage Post([FromBody]TModel value)
         {
             var ent = value.GetEntity();
@@ -48,7 +46,6 @@
         }
 
         // PUT api/<controller>/5
-        [HttpPut, ActionName("Default")]
         public virtual HttpResponseMessage Put(string id, [FromBody]TModel value)
         {
             var ent = value.GetEntity();
@@ -58,10 +55,10 @@
         }
 
         // DELETE api/<controller>/5
-        [HttpDelete, ActionName("Default")]
-        public virtual void Delete(Guid id)
+        public virtual HttpResponseMessage Delete(Guid id)
         {
             this.repository.Delete(id);
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }
 }

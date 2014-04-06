@@ -21,16 +21,27 @@
             return base.Put(id, value);
         }
 
-        [HttpGet, ActionName("lock")]
-        public PessimisticEntityModel GetLock(Guid id)
+        public override HttpResponseMessage Get(Guid id)
         {
-            var loaded = this.Get(id);
-            // save lock for entity in database
-            var token = AuthorizationHelper.GetSessionToken(this.Request);
-            var user = SessionTokenManager.Instance.Tokens[token];
-            loaded.Holder = user;
-            this.repository.Save(loaded.GetEntity());
-            return loaded;
+            var loaded = this.repository.Load(id);
+            if (loaded.Holder != null)
+            {
+                return this.Request.CreateResponse(HttpStatusCode.Conflict, new {
+                    message = string.Format(Strings.LockedEntity, loaded.Holder.Login),
+                    lockedBy = loaded.Holder.Login
+                });
+            }
+            else
+            {
+                
+                // save lock for entity in database
+                var token = AuthorizationHelper.GetSessionToken(this.Request);
+                var user = SessionTokenManager.Instance.Tokens[token];
+                loaded.Holder = user.GetEntity();
+                var model = new PessimisticEntityModel(loaded);
+                this.repository.Save(loaded);
+                return this.Request.CreateResponse<PessimisticEntityModel>(HttpStatusCode.OK, model); ;
+            }
         }
     }
 }

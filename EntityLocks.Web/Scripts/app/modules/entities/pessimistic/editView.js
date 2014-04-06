@@ -30,23 +30,20 @@
                         }
 
                         // set lock for editing entity
-                        requestManager.load(function (responce) {
-                            this.model.set(responce);
-
-                            if (responce.lockedBy) {
-                                this.trigger(Enums.event.locked);
-                                this.controller.cancel();
-                                return
-                            } else {
-                                requestManager.lock(function (responce) {
-                                }, null, this.model.get('id'));
-                            }
-                        }.bind(this), null, model.id);
+                        // update it in case it has been locked somewhere else
+                        requestManager.load(function (response) {
+                            this.model.set(response);
+                        }.bind(this), function (response) {
+                            this.model.set({ lockedBy: response.responseJSON.lockedBy });
+                            this.trigger(Enums.event.locked);
+                            this.controller.hideModal();
+                            return;
+                        }.bind(this), model.id);
                     },
 
                     update: function () {
                         requestManager.save(function (responce) {
-                            this.model.set({ lockedBy: undefined });
+                            this.model.set({ lockedBy: '' });
                             this.controller.close();
                         }.bind(this), null, this.model.get('id'), this.model.get())
                     },

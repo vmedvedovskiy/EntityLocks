@@ -10,13 +10,17 @@
             },
 
             cancel: function () {
-                this.view.$().modal('hide');
+                this.controller.hideModal();
                 this.trigger(Enums.event.cancelled);
             },
 
             close: function () {
                 this.view.$().modal('hide');
                 this.trigger(Enums.event.closed);
+            },
+
+            hideModal: function () {
+                this.view.$().modal('hide');
             }
         }
     });
